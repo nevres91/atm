@@ -20,9 +20,9 @@ const buttonStyle = (fSize = "40px", bgColor = "#c8c8c8") => ({
 const Keypad = () => {
   return (
     <Grid
-      sx={{ width: "90%", height: "40%", marginTop: "15%" }}
+      sx={{ width: "50vh", height: "40vh", marginTop: "10px" }}
       container
-      spacing={2}
+      spacing={1}
     >
       <Grid item xs={2.7}>
         <Button sx={buttonStyle()}>1</Button>
