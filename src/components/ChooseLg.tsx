@@ -1,5 +1,4 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
 import { ChooseLgGrid } from "../styles/styles";
 
 const ChoseLg = () => {

@@ -3,7 +3,6 @@ import { Box, Button, Typography } from "@mui/material";
 import bg from "../img/bg.jpeg";
 import money from "../img/money2.png";
 import { alignItems } from "../styles/styles";
-import Pin from "./Pin";
 import ServicesMenu from "./ServicesMenu";
 
 const Middle = ({ cardIn }: { cardIn: boolean }) => {

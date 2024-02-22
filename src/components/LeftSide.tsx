@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Card, CardActions, CardMedia, Typography } from "@mui/material";
 import { alignItems } from "../styles/styles";
 import Keypad from "./Keypad";

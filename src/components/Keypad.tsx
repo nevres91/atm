@@ -1,5 +1,4 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import React from "react";
+import { Button, Grid } from "@mui/material";
 
 const buttonStyle = (fSize = "40px", bgColor = "#c8c8c8") => ({
   display: "flex",
