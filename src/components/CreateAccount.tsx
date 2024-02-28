@@ -18,13 +18,16 @@ import {
   addDoc,
   query,
   where,
-  getDocs,
+  getDoc,
+  setDoc,
+  doc,
 } from "firebase/firestore";
 import { generateUniqueNumber } from "../functions/customFunctions";
+import { generateUniquePinNumber } from "../functions/customFunctions";
 import { getFirstNameByCardNumber } from "../functions/customFunctions";
 
 const CreateAccount = () => {
-  getFirstNameByCardNumber(912283);
+  getFirstNameByCardNumber(425670);
   const navigate = useNavigate();
   const initialValues = {
     FirstName: "",
@@ -38,6 +41,7 @@ const CreateAccount = () => {
     const auth = getAuth(app);
     const db = getFirestore(app);
     const cardNumber = generateUniqueNumber();
+    const pinNumber = generateUniquePinNumber();
     const { email, password, FirstName, LastName } = values; //values comes from Formik
 
     try {
@@ -50,13 +54,30 @@ const CreateAccount = () => {
       const user = userCredential.user;
       console.log(user);
 
-      // Writting data to database
-      const docRef = await addDoc(collection(db, "users"), {
+      // Writting data to user database
+      const docRefUsers = await addDoc(collection(db, "users"), {
         firstName: FirstName,
         lastName: LastName,
         cardNumber,
       });
-      console.log("Document written with id:", docRef.id);
+      console.log("Document user written with id:", docRefUsers.id);
+
+      const docRefCardNumber = await setDoc(
+        doc(db, "cardNumbers", `${cardNumber}`),
+        {
+          fullName: `${FirstName} ${LastName}`,
+          pin: pinNumber,
+        }
+      );
+      console.log(docRefCardNumber);
+
+      const cardNumberDoc = await getDoc(
+        doc(db, "cardNumbers", `${cardNumber}`)
+      );
+      if (cardNumberDoc.exists()) {
+        const cardNumberData = cardNumberDoc.data();
+        console.log("Data from cardNumbers:", cardNumberData);
+      }
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

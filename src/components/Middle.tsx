@@ -3,9 +3,14 @@ import { Box, Button, Typography } from "@mui/material";
 import bg from "../img/bg.jpeg";
 import money from "../img/money2.png";
 import { alignItems } from "../styles/styles";
+import Pin from "./Pin";
+import { useCardContext } from "../context/CardContext";
+import { usePinContext } from "../context/PinContext";
 import ServicesMenu from "./ServicesMenu";
 
-const Middle = ({ cardIn }: { cardIn: boolean }) => {
+const Middle = () => {
+  const { isCardValid } = useCardContext();
+  const { isPinValid } = usePinContext();
   return (
     <Box>
       <Box
@@ -35,14 +40,16 @@ const Middle = ({ cardIn }: { cardIn: boolean }) => {
             height: "60%",
           }}
         >
-          {!cardIn ? (
+          {!isCardValid ? (
             <Typography sx={{}} variant="h4">
               WELCOME <br />
               <br />
               Please insert your card.
             </Typography>
-          ) : (
+          ) : isPinValid ? (
             <ServicesMenu />
+          ) : (
+            <Pin />
           )}
         </Box>
       </Box>

@@ -2,25 +2,32 @@ import { Box } from "@mui/material";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
 import Middle from "./Middle";
-import { useInsertCard } from "../hooks/useInsertCard";
+import { useState } from "react";
+import { CardContext } from "../context/CardContext";
+import { PinContext } from "../context/PinContext";
 
 const MainPage = () => {
-  const { cardIn, insertCard } = useInsertCard();
+  const [isCardValid, setIsCardValid] = useState(false);
+  const [isPinValid, setIsPinValid] = useState(false);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        background: "rgb(145,146,140)",
-        height: "100vh",
-        maxHeight: "100vh",
-        justifyContent: "center",
-        // overflow: "hidden",
-      }}
-    >
-      <LeftSide />
-      <Middle cardIn={cardIn} />
-      <RightSide insertCard={insertCard} />
-    </Box>
+    <CardContext.Provider value={{ isCardValid, setIsCardValid }}>
+      <PinContext.Provider value={{ isPinValid, setIsPinValid }}>
+        <Box
+          sx={{
+            display: "flex",
+            background: "rgb(145,146,140)",
+            height: "100vh",
+            maxHeight: "100vh",
+            justifyContent: "center",
+            // overflow: "hidden",
+          }}
+        >
+          <LeftSide />
+          <Middle />
+          <RightSide />
+        </Box>
+      </PinContext.Provider>
+    </CardContext.Provider>
   );
 };
 

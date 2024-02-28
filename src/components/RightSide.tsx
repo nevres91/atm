@@ -5,8 +5,10 @@ import card from "../img/card2.png";
 import envelope from "../img/envelope2.png";
 import { alignItems } from "../styles/styles";
 import CardNumber from "./CardNumber";
+import { useInsertCard } from "../hooks/useInsertCard";
 
-const RightSide = ({ insertCard }: { insertCard: () => void }) => {
+const RightSide = () => {
+  const { cardIn, insertCard } = useInsertCard();
   return (
     <Box
       sx={{
@@ -29,7 +31,7 @@ const RightSide = ({ insertCard }: { insertCard: () => void }) => {
           background: `url(${receipt}) no-repeat center center/cover`,
         }}
       />
-      <CardNumber />
+      {cardIn ? <CardNumber /> : ""}
       <Button
         onClick={insertCard}
         sx={{
