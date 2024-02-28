@@ -1,14 +1,31 @@
-import { Box, TextField } from "@mui/material";
+import { Box, FormHelperText, TextField } from "@mui/material";
 import { alignItems } from "../styles/styles";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {
+  getFirstNameByCardNumber,
+  successToast,
+  errorToast,
+} from "../functions/customFunctions";
+import { ToastContainer } from "react-toastify";
+import { useCardContext } from "../context/CardContext";
 
 const CardNumber = () => {
+  const { setIsCardValid } = useCardContext();
   const initialValues = {
     cardNumber: "",
   };
 
-  const onSubmit = (values: any, props: any) => console.log(values.cardNumber);
+  const onSubmit = async (values: any, props: any) => {
+    const cardExists = await getFirstNameByCardNumber(values.cardNumber);
+    if (cardExists) {
+      successToast("Card Found");
+      setIsCardValid(true);
+    } else {
+      errorToast("Your card is invalid!");
+      setIsCardValid(false);
+    }
+  };
 
   // send an error if anything else except 6 numbers is entered.
   const validationSchema = Yup.object().shape({
@@ -32,15 +49,16 @@ const CardNumber = () => {
         validationSchema={validationSchema}
       >
         {(props) => {
-          // console.log(props);
+          console.log(props);
           return (
             <Form>
               <Field
                 as={TextField}
+                autoComplete="off"
                 name="cardNumber"
                 id="standard-helperText"
                 variant="standard"
-                helperText="Please enter your card Number"
+                helperText={"Enter your card Number"}
                 type="tel"
                 autoFocus={true}
                 color="primary"
@@ -76,6 +94,18 @@ const CardNumber = () => {
                   ...alignItems,
                 }}
               />
+              <FormHelperText
+                style={{
+                  color: "red",
+                  background: "#FFCDD2",
+                  alignContent: "center",
+                  textAlign: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <ErrorMessage name="cardNumber" />
+              </FormHelperText>
+              <ToastContainer />
             </Form>
           );
         }}

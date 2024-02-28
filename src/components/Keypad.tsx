@@ -1,4 +1,6 @@
 import { Button, Grid } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const buttonStyle = (fSize = "40px", bgColor = "#c8c8c8") => ({
   display: "flex",
@@ -15,6 +17,8 @@ const buttonStyle = (fSize = "40px", bgColor = "#c8c8c8") => ({
   color: "black",
   padding: "0",
 });
+
+const successToast = () => toast.success("This is a success toast!");
 
 const Keypad = () => {
   return (

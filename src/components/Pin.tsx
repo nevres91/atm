@@ -1,14 +1,31 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import {
+  errorToast,
+  successToast,
+  validatePin,
+} from "../functions/customFunctions";
+import { usePinContext } from "../context/PinContext";
 
 const Pin = () => {
   let [inputValue, setInputValue] = useState("");
+  const { setIsPinValid } = usePinContext();
 
   const handleInputChange = (e: any) => {
     const value = e.target.value;
     if (/^\d{0,4}$/.test(value)) {
       console.log(value);
       setInputValue(value);
+    }
+  };
+
+  const onSubmit = async () => {
+    const isPinValid = await validatePin(inputValue);
+    if (isPinValid) {
+      setIsPinValid(true);
+      successToast("Logged in.");
+    } else {
+      errorToast("Wrong PIN number!");
     }
   };
 
@@ -27,6 +44,7 @@ const Pin = () => {
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             console.log("submited");
+            onSubmit();
           }
         }}
         InputLabelProps={{
