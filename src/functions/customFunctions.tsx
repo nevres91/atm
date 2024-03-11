@@ -4,10 +4,15 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 import app from "../firebaseConfig";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { error } from "console";
+import { useCardContext } from "../context/CardContext";
 
 function random4DigitNumber() {
   return Math.floor(Math.random() * 9000) + 1000;
@@ -68,5 +73,50 @@ export const validatePin = async (pin: string) => {
   } catch (error) {
     errorToast("Wrong pin entered");
     console.error("Error fetching user:", error);
+  }
+};
+
+// !Get account balance
+export const getBalance = async (cardNumber: string) => {
+  const db = getFirestore(app);
+  const transactionDoc = await getDoc(doc(db, "transactions", `${cardNumber}`));
+  if (transactionDoc) {
+    const transactionsData = transactionDoc.data();
+    const balance = transactionsData?.balance;
+    console.log(balance);
+  } else {
+    console.log("Account not found");
+  }
+};
+
+// !Get a card's isConfiscated status.
+export const getConfiscateStatus = async (cardNumber: string) => {
+  const db = getFirestore(app);
+  const cardNumbersCollection = await getDoc(
+    doc(db, "cardNumbers", `${cardNumber}`)
+  );
+  if (cardNumbersCollection) {
+    const cardNumbersData = cardNumbersCollection.data();
+    const isConfiscatedStatus = cardNumbersData?.isConfiscated;
+    return isConfiscatedStatus;
+  } else {
+    console.log("Account not found");
+  }
+};
+
+// !Change Confiscate status.
+export const setConfiscateStatus = async (
+  cardNumber: string,
+  status: boolean
+) => {
+  const db = getFirestore(app);
+  const cardNumbersRef = doc(db, "cardNumbers", `${cardNumber}`);
+  const cardNumbersCollection = await getDoc(cardNumbersRef);
+  if (cardNumbersCollection) {
+    await updateDoc(cardNumbersRef, {
+      isConfiscated: status,
+    });
+  } else {
+    console.log("Account not found");
   }
 };

@@ -1,12 +1,11 @@
+import { Box, Typography, Paper, Button, ThemeProvider } from "@mui/material";
 import {
-  Box,
-  Container,
-  Typography,
-  Paper,
-  Button,
-  ThemeProvider,
-} from "@mui/material";
-import { FormField, theme } from "../styles/styles";
+  CustomContainer,
+  FormField,
+  GenderRadio,
+  LeaveBankBtn,
+  theme,
+} from "../styles/styles";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -15,19 +14,16 @@ import app from "../firebaseConfig";
 import {
   getFirestore,
   collection,
-  addDoc,
-  query,
-  where,
   getDoc,
   setDoc,
   doc,
 } from "firebase/firestore";
 import { generateUniqueNumber } from "../functions/customFunctions";
 import { generateUniquePinNumber } from "../functions/customFunctions";
-import { getFirstNameByCardNumber } from "../functions/customFunctions";
+import { useState } from "react";
 
 const CreateAccount = () => {
-  getFirstNameByCardNumber(425670);
+  const [gender, setGender] = useState("Male");
   const navigate = useNavigate();
   const initialValues = {
     FirstName: "",
@@ -35,6 +31,11 @@ const CreateAccount = () => {
     email: "",
     password: "",
     password2: "",
+  };
+
+  const handleGenderChange = (gender: string) => {
+    setGender(gender);
+    console.log(gender);
   };
 
   const onSubmit = async (values: any, props: any) => {
@@ -52,31 +53,68 @@ const CreateAccount = () => {
         password
       );
       const user = userCredential.user;
-      console.log(user);
+      console.log(user.uid);
 
-      // Writting data to user database
-      const docRefUsers = await addDoc(collection(db, "users"), {
+      // *Writting data to "user" database
+      const docRefUsers = doc(collection(db, "users"), user.uid);
+
+      await setDoc(docRefUsers, {
         firstName: FirstName,
         lastName: LastName,
+        emailAdress: email,
         cardNumber,
+        gender: gender,
       });
-      console.log("Document user written with id:", docRefUsers.id);
 
+      console.log("Document user written with id:", docRefUsers.id);
+      console.log("the gender after registration:", gender);
+
+      // *Writting data to "CardNumbers" database
       const docRefCardNumber = await setDoc(
         doc(db, "cardNumbers", `${cardNumber}`),
         {
           fullName: `${FirstName} ${LastName}`,
           pin: pinNumber,
+          isConfiscated: false,
         }
       );
-      console.log(docRefCardNumber);
 
+      // *Writting data to "transactions" database
+      const docRefTransactions = await setDoc(
+        doc(db, "transactions", `${cardNumber}`),
+        {
+          balance: 0,
+          transactions: {
+            withdrawal: {
+              amount: 0,
+              date: new Date(),
+              totalBalance: 0,
+            },
+            deposit: {
+              amount: 0,
+              date: new Date(),
+              totalBalance: 0,
+            },
+            transfer: {
+              to: "",
+              amount: 0,
+              date: new Date(),
+              totalBalance: 0,
+            },
+          },
+        }
+      );
+
+      // todo //Get Document data
       const cardNumberDoc = await getDoc(
         doc(db, "cardNumbers", `${cardNumber}`)
       );
+      console.log(cardNumberDoc.data());
       if (cardNumberDoc.exists()) {
         const cardNumberData = cardNumberDoc.data();
         console.log("Data from cardNumbers:", cardNumberData);
+      } else {
+        console.log("cardNumbers data doesnt exist");
       }
     } catch (error: any) {
       const errorCode = error.code;
@@ -92,19 +130,7 @@ const CreateAccount = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box bgcolor="#033860" sx={{ width: "100%", height: "100vh" }}>
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingTop: "3%",
-            backgroundColor: "#004385",
-            height: "100vh",
-            width: "100vw",
-            color: "white",
-          }}
-          maxWidth="xl"
-        >
+        <CustomContainer>
           <Typography variant="h4">Please enter your credentials.</Typography>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             <Paper
@@ -124,6 +150,12 @@ const CreateAccount = () => {
                     width: "100%",
                   }}
                 >
+                  <GenderRadio
+                    value1="Male"
+                    value2="Female"
+                    onGenderChange={handleGenderChange}
+                  />
+
                   <FormField
                     id="1"
                     name="FirstName"
@@ -154,7 +186,18 @@ const CreateAccount = () => {
               </Form>
             </Paper>
           </Formik>
-        </Container>
+          <Typography sx={{ marginTop: "5%" }} variant="h5">
+            I already have an account.
+          </Typography>
+          <Button
+            onClick={() => navigate("/inside")}
+            sx={{ width: "40%", height: "55px", marginTop: "10px" }}
+            variant="contained"
+          >
+            LOG IN
+          </Button>
+          <LeaveBankBtn text="LEAVE THE BANK" onClick={() => navigate("/")} />
+        </CustomContainer>
       </Box>
     </ThemeProvider>
   );

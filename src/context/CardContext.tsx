@@ -3,6 +3,10 @@ import { createContext, useContext } from "react";
 interface CardContextProps {
   isCardValid: boolean;
   setIsCardValid: React.Dispatch<React.SetStateAction<boolean>>;
+  currentCard: string;
+  setCurrentCard: React.Dispatch<React.SetStateAction<string>>;
+  isConfiscated: boolean;
+  setIsConfiscated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CardContext = createContext<CardContextProps | undefined>(

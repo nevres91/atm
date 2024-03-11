@@ -7,10 +7,24 @@ import Pin from "./Pin";
 import { useCardContext } from "../context/CardContext";
 import { usePinContext } from "../context/PinContext";
 import ServicesMenu from "./ServicesMenu";
+import { useEffect } from "react";
+import { getConfiscateStatus } from "../functions/customFunctions";
 
 const Middle = () => {
-  const { isCardValid } = useCardContext();
+  const { isCardValid, currentCard, isConfiscated, setIsConfiscated } =
+    useCardContext();
   const { isPinValid } = usePinContext();
+  useEffect(() => {
+    if (currentCard.length > 1) {
+      const getStatus = async () => {
+        const confStatus = await getConfiscateStatus(currentCard);
+        setIsConfiscated(confStatus);
+        console.log("Middle use effect, status:", confStatus);
+      };
+      getStatus();
+    }
+  }, [currentCard]);
+
   return (
     <Box>
       <Box
@@ -48,6 +62,12 @@ const Middle = () => {
             </Typography>
           ) : isPinValid ? (
             <ServicesMenu />
+          ) : isCardValid && isConfiscated ? (
+            <Typography sx={{}} variant="h4">
+              CONFISCATED!! <br />
+              <br />
+              Your card is confiscated, please talk to our employee.
+            </Typography>
           ) : (
             <Pin />
           )}

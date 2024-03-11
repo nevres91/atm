@@ -1,6 +1,20 @@
-import { Button, Grid, TextField, createTheme } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  TextField,
+  createTheme,
+  ContainerProps,
+  Paper,
+} from "@mui/material";
 import { Field } from "formik";
 import { useField } from "formik";
+import React, { ReactNode } from "react";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 interface InsideMenuProps {
   label: string;
@@ -20,19 +34,111 @@ export const lgButton = {
   fontSize: "25px",
 };
 
-export const ChooseLgGrid = ({ label }: { label: string }) => (
+// !An icon with a custom image and absolute position
+export const MyIcon = ({
+  top,
+  right,
+  left,
+  img,
+  bottom,
+}: {
+  bottom?: string;
+  top?: string;
+  right?: string;
+  left?: string;
+  img: string;
+}) => {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        position: "absolute",
+        top: top,
+        right: right,
+        left: left,
+        bottom: bottom,
+        background: `url(${img}) no-repeat center center/cover`,
+        height: "60px",
+        width: "100px",
+      }}
+    />
+  );
+};
+
+export const LeaveBankBtn = ({
+  text,
+  onClick,
+}: {
+  text: string;
+  onClick: () => void;
+}) => {
+  return (
+    <Button
+      sx={{
+        width: "75%",
+        marginTop: "10px",
+        height: "10%",
+        position: "absolute",
+        bottom: "20px",
+        fontSize: "2rem",
+      }}
+      onClick={onClick}
+      variant="contained"
+    >
+      {text}
+    </Button>
+  );
+};
+
+// !Gender Form
+export const GenderRadio = ({
+  value1,
+  value2,
+  onGenderChange,
+}: {
+  value1: string;
+  value2: string;
+  onGenderChange: (gender: string) => void;
+}) => {
+  return (
+    <FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+        onChange={(e) => onGenderChange(e.target.value)}
+        defaultValue={value1}
+      >
+        <FormControlLabel value={value1} control={<Radio />} label="Male" />
+        <FormControlLabel value={value2} control={<Radio />} label="Female" />
+      </RadioGroup>
+    </FormControl>
+  );
+};
+
+// !Choose language grid
+export const ChooseLgGrid = ({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick?: () => void;
+}) => (
   <Grid item xs={6}>
     <Button
       sx={{
         ...lgButton,
       }}
       variant="contained"
+      onClick={onClick}
     >
       {label}
     </Button>
   </Grid>
 );
 
+// !Iside the bank, services menu items.
 export const InsideMenu: React.FC<InsideMenuProps> = ({
   label,
   width,
@@ -55,6 +161,7 @@ export const InsideMenu: React.FC<InsideMenuProps> = ({
   </Grid>
 );
 
+// !A customized field in a form.
 export const FormField = ({
   label,
   type,
@@ -66,7 +173,7 @@ export const FormField = ({
   name: string;
   id: string;
 }) => {
-  const [field, meta] = useField(name);
+  const [field] = useField(name);
 
   return (
     <Field
@@ -89,7 +196,7 @@ export const FormField = ({
   );
 };
 
-// Making the textfields full width as default.
+//! Making the textfields full width as default.
 export const theme = createTheme({
   components: {
     MuiTextField: {
@@ -100,3 +207,29 @@ export const theme = createTheme({
     },
   },
 });
+
+// !Blue bg container
+interface CustomContainerProps extends ContainerProps {
+  children: ReactNode;
+}
+export const CustomContainer: React.FC<CustomContainerProps> = ({
+  children,
+}) => {
+  return (
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: "3%",
+        backgroundColor: "#004385",
+        height: "100vh",
+        width: "100vw",
+        color: "white",
+      }}
+      maxWidth="xl"
+    >
+      {children}
+    </Container>
+  );
+};
