@@ -6,21 +6,30 @@ import {
   getFirstNameByCardNumber,
   successToast,
   errorToast,
+  getConfiscateStatus,
 } from "../functions/customFunctions";
 import { ToastContainer } from "react-toastify";
 import { useCardContext } from "../context/CardContext";
+import { usePinContext } from "../context/PinContext";
 
 const CardNumber = () => {
-  const { setIsCardValid } = useCardContext();
+  const { setIsCardValid, setCurrentCard, isCardValid, setIsConfiscated } =
+    useCardContext();
+  const { setIsPinValid } = usePinContext();
   const initialValues = {
     cardNumber: "",
   };
 
   const onSubmit = async (values: any, props: any) => {
-    const cardExists = await getFirstNameByCardNumber(values.cardNumber);
+    setIsPinValid(false);
+    const { cardNumber } = values;
+    const cardExists = await getFirstNameByCardNumber(cardNumber);
     if (cardExists) {
       successToast("Card Found");
       setIsCardValid(true);
+      setCurrentCard(cardNumber);
+      const confStatus = await getConfiscateStatus(cardNumber);
+      setIsConfiscated(confStatus);
     } else {
       errorToast("Your card is invalid!");
       setIsCardValid(false);
@@ -49,7 +58,7 @@ const CardNumber = () => {
         validationSchema={validationSchema}
       >
         {(props) => {
-          console.log(props);
+          // console.log(props);
           return (
             <Form>
               <Field
@@ -63,11 +72,6 @@ const CardNumber = () => {
                 autoFocus={true}
                 color="primary"
                 required={true}
-                onKeyDown={(e: any) => {
-                  if (e.key === "Enter") {
-                    console.log("submited");
-                  }
-                }}
                 onInput={handleInput}
                 InputLabelProps={{
                   shrink: true,
@@ -87,7 +91,7 @@ const CardNumber = () => {
                   pattern: "[0-9]*",
                 }}
                 sx={{
-                  background: "white",
+                  background: isCardValid ? "#9ff28f" : "white",
                   borderRadius: "5px",
                   margin: "auto",
                   padding: "5px",

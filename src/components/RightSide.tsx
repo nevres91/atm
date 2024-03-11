@@ -6,9 +6,15 @@ import envelope from "../img/envelope2.png";
 import { alignItems } from "../styles/styles";
 import CardNumber from "./CardNumber";
 import { useInsertCard } from "../hooks/useInsertCard";
+import { useCardContext } from "../context/CardContext";
 
 const RightSide = () => {
   const { cardIn, insertCard } = useInsertCard();
+  const { isCardValid, setIsCardValid } = useCardContext();
+  const insert = () => {
+    insertCard();
+    setIsCardValid(false);
+  };
   return (
     <Box
       sx={{
@@ -33,7 +39,7 @@ const RightSide = () => {
       />
       {cardIn ? <CardNumber /> : ""}
       <Button
-        onClick={insertCard}
+        onClick={insert}
         sx={{
           borderRadius: "10px",
           // boxShadow: "0px 0px 17px 6px rgba(246,72,101,0.75)",
@@ -41,7 +47,13 @@ const RightSide = () => {
           height: "38vh",
           width: "30vh",
           background: `url(${card}) no-repeat center center/cover`,
-          animation: "flash 2s infinite",
+          boxShadow:
+            cardIn && !isCardValid
+              ? "0 0 17px 6px orange"
+              : cardIn && isCardValid
+              ? "0 0 17px 6px rgba(21,255,0,0.75)"
+              : "none",
+          animation: !cardIn ? "flash 2s infinite" : "none",
           "@keyframes flash": {
             "0%, 49.9%, 100%": {
               boxShadow: "0 0 17px 6px rgba(21,255,0,0.75)",
