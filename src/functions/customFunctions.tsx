@@ -82,8 +82,8 @@ export const getBalance = async (cardNumber: string) => {
   const transactionDoc = await getDoc(doc(db, "transactions", `${cardNumber}`));
   if (transactionDoc) {
     const transactionsData = transactionDoc.data();
-    const balance = transactionsData?.balance;
-    console.log(balance);
+    const balance: number = transactionsData?.balance;
+    return balance;
   } else {
     console.log("Account not found");
   }

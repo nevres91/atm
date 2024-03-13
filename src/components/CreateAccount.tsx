@@ -1,4 +1,11 @@
-import { Box, Typography, Paper, Button, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  Button,
+  ThemeProvider,
+  CircularProgress,
+} from "@mui/material";
 import {
   CustomContainer,
   FormField,
@@ -8,7 +15,11 @@ import {
 } from "../styles/styles";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import "../firebaseConfig";
 import app from "../firebaseConfig";
 import {
@@ -18,12 +29,21 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
-import { generateUniqueNumber } from "../functions/customFunctions";
+import {
+  errorToast,
+  generateUniqueNumber,
+  successToast,
+} from "../functions/customFunctions";
 import { generateUniquePinNumber } from "../functions/customFunctions";
 import { useState } from "react";
+import { useUserContext } from "../context/UserContext";
+import { ToastContainer } from "react-toastify";
 
 const CreateAccount = () => {
   const [gender, setGender] = useState("Male");
+  const [loading, setLoading] = useState(false);
+  const { uid, setUid } = useUserContext();
+
   const navigate = useNavigate();
   const initialValues = {
     FirstName: "",
@@ -46,7 +66,7 @@ const CreateAccount = () => {
     const { email, password, FirstName, LastName } = values; //values comes from Formik
 
     try {
-      // Registering a user
+      // *Registering a user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -65,7 +85,6 @@ const CreateAccount = () => {
         cardNumber,
         gender: gender,
       });
-
       console.log("Document user written with id:", docRefUsers.id);
       console.log("the gender after registration:", gender);
 
@@ -104,7 +123,6 @@ const CreateAccount = () => {
           },
         }
       );
-
       // todo //Get Document data
       const cardNumberDoc = await getDoc(
         doc(db, "cardNumbers", `${cardNumber}`)
@@ -116,12 +134,29 @@ const CreateAccount = () => {
       } else {
         console.log("cardNumbers data doesnt exist");
       }
+      // *Sing in the user after account creation, and redirect after 2s.
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setLoading(true);
+          setUid(user.uid);
+          console.log(user.uid);
+          successToast("Loged in Successfully.");
+          setTimeout(() => {
+            setLoading(false);
+            navigate("/inside");
+          }, 2000);
+        })
+        .catch((error: any) => {
+          const { errorCode, errorMessage } = error;
+          console.error(errorCode, errorMessage);
+          errorToast("Something went wrong");
+          setUid("");
+        });
     } catch (error: any) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      const { errorCode, errorMessage } = error;
       if (errorCode || errorMessage) {
-        console.log(errorCode);
-        console.log(errorMessage);
+        console.error(errorCode, errorMessage);
         alert(errorMessage);
       }
     }
@@ -180,7 +215,11 @@ const CreateAccount = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Submit
+                    {loading ? (
+                      <CircularProgress size={24} color="inherit" />
+                    ) : (
+                      "Submit"
+                    )}
                   </Button>
                 </Box>
               </Form>
@@ -198,6 +237,7 @@ const CreateAccount = () => {
           </Button>
           <LeaveBankBtn text="LEAVE THE BANK" onClick={() => navigate("/")} />
         </CustomContainer>
+        <ToastContainer />
       </Box>
     </ThemeProvider>
   );
