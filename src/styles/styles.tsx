@@ -19,6 +19,8 @@ import FormLabel from "@mui/material/FormLabel";
 interface InsideMenuProps {
   label: string;
   width: number;
+  color?: string;
+  disabled?: any;
   onClick?: () => void;
 }
 
@@ -142,12 +144,16 @@ export const ChooseLgGrid = ({
 export const InsideMenu: React.FC<InsideMenuProps> = ({
   label,
   width,
+  color,
+  disabled,
   onClick,
 }) => (
   <Grid item xs={width} gap={2} onClick={onClick}>
     <Button
+      disabled={disabled}
       variant="contained"
       sx={{
+        backgroundColor: `${color}`,
         width: "100%",
         height: "60px",
         fontSize: {
