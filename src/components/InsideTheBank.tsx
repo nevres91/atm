@@ -1,21 +1,11 @@
-import { Box } from "@mui/material";
-import { alignItems } from "../styles/styles";
+import { MainBox } from "../styles/styles";
 import LogIn from "./LogIn";
 
 const InsideTheBank = () => {
   return (
-    <Box
-      bgcolor="#033860"
-      sx={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        ...alignItems,
-      }}
-    >
+    <MainBox>
       <LogIn />
-    </Box>
+    </MainBox>
   );
 };
 

@@ -64,8 +64,16 @@ const CreateAccount = () => {
     const cardNumber = generateUniqueNumber();
     const pinNumber = generateUniquePinNumber();
     const { email, password, FirstName, LastName } = values; //values comes from Formik
-
+    console.log(email);
     try {
+      console.log(
+        "email:",
+        email,
+        "password:",
+        password,
+        "First Name:",
+        FirstName
+      );
       // *Registering a user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -150,11 +158,13 @@ const CreateAccount = () => {
         .catch((error: any) => {
           const { errorCode, errorMessage } = error;
           console.error(errorCode, errorMessage);
+          console.log(error);
           errorToast("Something went wrong");
           setUid("");
         });
     } catch (error: any) {
       const { errorCode, errorMessage } = error;
+      console.log(error);
       if (errorCode || errorMessage) {
         console.error(errorCode, errorMessage);
         alert(errorMessage);

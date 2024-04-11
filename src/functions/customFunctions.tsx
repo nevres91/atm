@@ -7,12 +7,15 @@ import {
   getDoc,
   doc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import app from "../firebaseConfig";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { error } from "console";
 import { useCardContext } from "../context/CardContext";
+
+const db = getFirestore(app);
 
 function random4DigitNumber() {
   return Math.floor(Math.random() * 9000) + 1000;
@@ -42,7 +45,6 @@ export const generateUniquePinNumber = () => {
 
 //! Check if a card with provided card Number exists
 export const getFirstNameByCardNumber = async (cardNumber: number) => {
-  const db = getFirestore(app);
   const usersCollection = collection(db, "users");
   const q = query(usersCollection, where("cardNumber", "==", cardNumber));
   try {
@@ -60,7 +62,6 @@ export const getFirstNameByCardNumber = async (cardNumber: number) => {
 
 // ! Check if the pin of the provided card number is correct:
 export const validatePin = async (pin: string) => {
-  const db = getFirestore(app);
   const cardNumbersCollection = collection(db, "cardNumbers");
   const q = query(cardNumbersCollection, where("pin", "==", pin));
   try {
@@ -78,7 +79,6 @@ export const validatePin = async (pin: string) => {
 
 // !Get account balance
 export const getBalance = async (cardNumber: string) => {
-  const db = getFirestore(app);
   const transactionDoc = await getDoc(doc(db, "transactions", `${cardNumber}`));
   if (transactionDoc) {
     const transactionsData = transactionDoc.data();
@@ -89,9 +89,22 @@ export const getBalance = async (cardNumber: string) => {
   }
 };
 
+// ! Set accounnt balance
+export const setAccBalance = async (cardNumber: string, value: number) => {
+  console.log(cardNumber);
+  console.log("db:", db);
+  const transactionDocRef = doc(db, "transactions", `${cardNumber}`);
+  console.log("transactionDocRef", transactionDocRef);
+  try {
+    await setDoc(transactionDocRef, { balance: value }, { merge: true });
+  } catch (error) {
+    errorToast("An error occured!");
+    console.error(error);
+  }
+};
+
 // !Get a card's isConfiscated status.
 export const getConfiscateStatus = async (cardNumber: string) => {
-  const db = getFirestore(app);
   const cardNumbersCollection = await getDoc(
     doc(db, "cardNumbers", `${cardNumber}`)
   );
@@ -109,7 +122,6 @@ export const setConfiscateStatus = async (
   cardNumber: string,
   status: boolean
 ) => {
-  const db = getFirestore(app);
   const cardNumbersRef = doc(db, "cardNumbers", `${cardNumber}`);
   const cardNumbersCollection = await getDoc(cardNumbersRef);
   if (cardNumbersCollection) {
@@ -119,4 +131,16 @@ export const setConfiscateStatus = async (
   } else {
     console.log("Account not found");
   }
+};
+
+// !Fetch all accounts with names and account number
+export const fetchAccounts = async () => {
+  const usersCollection = collection(db, "users");
+  const querySnapshot = await getDocs(usersCollection);
+  const accounts: any = [];
+  querySnapshot.forEach((doc) => {
+    const { cardNumber, firstName, lastName } = doc.data();
+    accounts.push({ firstName, lastName, cardNumber });
+  });
+  return accounts;
 };

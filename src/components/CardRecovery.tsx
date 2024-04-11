@@ -5,7 +5,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { CustomContainer, alignItems } from "../styles/styles";
+import { CustomContainer, MainBox, alignItems } from "../styles/styles";
 import { useCardContext } from "../context/CardContext";
 import BankCard from "./BankCard";
 import { useUserContext } from "../context/UserContext";
@@ -37,16 +37,7 @@ const CardRecovery = () => {
   useRedirect(currentCard); //! Redirect if theres no user
 
   return (
-    <Box
-      bgcolor="#033860"
-      sx={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        ...alignItems,
-      }}
-    >
+    <MainBox>
       <CustomContainer>
         <Typography my={5} variant="h4">
           {isConfiscated
@@ -90,7 +81,7 @@ const CardRecovery = () => {
         )}
         <ToastContainer />
       </CustomContainer>
-    </Box>
+    </MainBox>
   );
 };
 

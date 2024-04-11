@@ -8,13 +8,14 @@ import { useCardContext } from "../context/CardContext";
 import useUserData from "../hooks/useUserData";
 import { useEffect, useState } from "react";
 import AccountBalance from "./AccountBalance";
-import { getConfiscateStatus } from "../functions/customFunctions";
+import { getBalance, getConfiscateStatus } from "../functions/customFunctions";
 
 // *The services a customer gets when succesfully logged in.
 const InsideServices = () => {
   const auth = getAuth();
   const { uid, setUid } = useUserContext();
-  const { currentCard, isConfiscated, setIsConfiscated } = useCardContext();
+  const { setCardBalance, currentCard, isConfiscated, setIsConfiscated } =
+    useCardContext();
   const navigate = useNavigate();
   const { userName } = useUserData(uid);
   const [showBalance, setShowBalance] = useState(false);
@@ -22,12 +23,16 @@ const InsideServices = () => {
   useEffect(() => {
     const getConfStatus = async () => {
       if (currentCard) {
+        const cardBalance = await getBalance(currentCard); //! Fetching account balance in addition to status
         const status = await getConfiscateStatus(currentCard);
+        if (cardBalance) {
+          setCardBalance(cardBalance); //! Setting global state for balance
+        }
         setIsConfiscated(status);
       }
     };
     getConfStatus();
-  }, []);
+  }, [currentCard]);
 
   const signOut = () => {
     auth.signOut().then(() => {
@@ -67,9 +72,46 @@ const InsideServices = () => {
             width={6}
             label="Balance"
           />
-          <InsideMenu disabled={isConfiscated} width={6} label="Transfer" />
-          <InsideMenu disabled={isConfiscated} width={6} label="Deposit" />
-          <InsideMenu disabled={isConfiscated} width={12} label="Change Pin" />
+          <InsideMenu
+            onClick={() => {
+              if (!isConfiscated) {
+                navigate("/inside/transfer");
+              }
+            }}
+            disabled={isConfiscated}
+            width={6}
+            label="Transfer"
+          />
+          <InsideMenu
+            onClick={() => {
+              if (!isConfiscated) {
+                navigate("/inside/deposit");
+              }
+            }}
+            disabled={isConfiscated}
+            width={6}
+            label="Deposit"
+          />
+          <InsideMenu
+            onClick={() => {
+              if (!isConfiscated) {
+                navigate("/inside/withdraw");
+              }
+            }}
+            disabled={isConfiscated}
+            width={6}
+            label="Withdraw"
+          />
+          <InsideMenu
+            disabled={isConfiscated}
+            width={6}
+            label="Change Pin"
+            onClick={() => {
+              if (!isConfiscated) {
+                navigate("/inside/change_pin");
+              }
+            }}
+          />
         </Grid>
       </Typography>
 

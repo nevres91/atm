@@ -30,6 +30,7 @@ const LogIn = () => {
     const { email, password } = values;
     // const db = getFirestore(app);
 
+    // !SignIn
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -39,20 +40,13 @@ const LogIn = () => {
         successToast("Loged in Successfully.");
       })
       .catch((error: any) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        errorToast(`${errorMessage}`);
+        const { errorCode, errorMessage } = error;
+        errorToast(`${errorCode} ${errorMessage}`);
         setUid("");
-        console.log("Error UID", uid);
+        console.log("Error UID", errorCode, errorMessage);
+        console.log(error);
       });
-    // console.log(uid);
-    // const usersData = await getDoc(doc(db, "users", `${uid}`));
-    // if (usersData.exists()) {
-    //   const cardNumber = usersData.data().cardNumber;
-    //   setCurrentCard(cardNumber);
-    //   console.log(currentCard);
-    // }
+    console.log(uid);
 
     console.log("Login submitted!");
   };
