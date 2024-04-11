@@ -6,10 +6,11 @@ import {
   createTheme,
   ContainerProps,
   Paper,
+  Box,
 } from "@mui/material";
 import { Field } from "formik";
 import { useField } from "formik";
-import React, { ReactNode } from "react";
+import React, { Children, ReactNode } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -34,6 +35,24 @@ export const lgButton = {
   width: "80%",
   height: "80%",
   fontSize: "25px",
+};
+
+// !A box with blue background
+export const MainBox = ({ children }: { children: any }) => {
+  return (
+    <Box
+      bgcolor="#033860"
+      sx={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        ...alignItems,
+      }}
+    >
+      {children}
+    </Box>
+  );
 };
 
 // !An icon with a custom image and absolute position
@@ -67,6 +86,7 @@ export const MyIcon = ({
   );
 };
 
+// ! A button to leave the bank
 export const LeaveBankBtn = ({
   text,
   onClick,
@@ -173,18 +193,41 @@ export const FormField = ({
   type,
   name,
   id,
+  value,
+  size,
+  marginLeft,
+  disabled,
+  onInput,
+  letterSpacing,
+  fontSize,
+  fontWeight,
+  padding,
+  textAlign,
+  ...rest
 }: {
   label: string;
   type: string;
   name: string;
   id: string;
+  value?: number;
+  size?: string;
+  marginLeft?: string;
+  disabled?: boolean;
+  onInput?: (e: any) => void;
+  letterSpacing?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  padding?: string;
+  textAlign?: string;
 }) => {
   const [field] = useField(name);
 
   return (
     <Field
       {...field}
+      onInput={onInput}
       as={TextField}
+      disabled={disabled}
       name={name}
       id={`outlined-basic ${id}`}
       type={type}
@@ -192,12 +235,24 @@ export const FormField = ({
       label={label}
       color="primary"
       required={true}
+      value={value}
+      size={size}
       sx={{
         background: "white",
         borderRadius: "5px",
         marginTop: "10px",
-        ...alignItems,
+        marginLeft: marginLeft,
       }}
+      inputProps={{
+        style: {
+          letterSpacing: letterSpacing,
+          fontWeight: fontWeight,
+          fontSize: fontSize,
+          padding: padding,
+          textAlign: textAlign,
+        },
+      }}
+      {...rest}
     />
   );
 };

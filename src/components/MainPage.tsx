@@ -14,33 +14,22 @@ const MainPage = () => {
   const [isConfiscated, setIsConfiscated] = useState(false);
   console.log("Main Page Rendered");
   return (
-    <CardContext.Provider
-      value={{
-        isCardValid,
-        setIsCardValid,
-        currentCard,
-        setCurrentCard,
-        isConfiscated,
-        setIsConfiscated,
-      }}
-    >
-      <PinContext.Provider value={{ isPinValid, setIsPinValid }}>
-        <Box
-          sx={{
-            display: "flex",
-            background: "rgb(145,146,140)",
-            height: "100vh",
-            maxHeight: "100vh",
-            justifyContent: "center",
-            // overflow: "hidden",
-          }}
-        >
-          <LeftSide />
-          <Middle />
-          <RightSide />
-        </Box>
-      </PinContext.Provider>
-    </CardContext.Provider>
+    <PinContext.Provider value={{ isPinValid, setIsPinValid }}>
+      <Box
+        sx={{
+          display: "flex",
+          background: "rgb(145,146,140)",
+          height: "100vh",
+          maxHeight: "100vh",
+          justifyContent: "center",
+          // overflow: "hidden",
+        }}
+      >
+        <LeftSide />
+        <Middle />
+        <RightSide />
+      </Box>
+    </PinContext.Provider>
   );
 };
 

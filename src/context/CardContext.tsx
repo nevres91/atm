@@ -7,6 +7,8 @@ interface CardContextProps {
   setCurrentCard: React.Dispatch<React.SetStateAction<string>>;
   isConfiscated: boolean;
   setIsConfiscated: React.Dispatch<React.SetStateAction<boolean>>;
+  cardBalance: number;
+  setCardBalance: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const CardContext = createContext<CardContextProps | undefined>(
