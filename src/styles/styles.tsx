@@ -209,7 +209,7 @@ export const FormField = ({
   type: string;
   name: string;
   id: string;
-  value?: number;
+  value?: number | null;
   size?: string;
   marginLeft?: string;
   disabled?: boolean;

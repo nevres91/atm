@@ -91,10 +91,7 @@ export const getBalance = async (cardNumber: string) => {
 
 // ! Set accounnt balance
 export const setAccBalance = async (cardNumber: string, value: number) => {
-  console.log(cardNumber);
-  console.log("db:", db);
   const transactionDocRef = doc(db, "transactions", `${cardNumber}`);
-  console.log("transactionDocRef", transactionDocRef);
   try {
     await setDoc(transactionDocRef, { balance: value }, { merge: true });
   } catch (error) {
