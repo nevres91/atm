@@ -47,11 +47,11 @@ const Middle = () => {
           INTERNATIONAL BANK
         </Typography>
         <Box
-          my={10}
+          my={0}
           sx={{
             display: "flex",
             ...alignItems,
-            height: "60%",
+            height: "100%", // changed to 100 from 60
           }}
         >
           {!isCardValid ? (

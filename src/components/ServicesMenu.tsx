@@ -1,17 +1,19 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChooseLgGrid } from "../styles/styles";
-import { getBalance } from "../functions/customFunctions";
 import { useCardContext } from "../context/CardContext";
-import { useNavigate } from "react-router-dom";
-import { alignItems } from "../styles/styles";
 import DepositMoneyAtm from "./DepositMoneyAtm";
+import WithdrawMoneyAtm from "./WithdrawMoneyAtm";
 
 const ServicesMenu = () => {
-  const { currentCard } = useCardContext();
+  const { currentCard, setIsEnvelopeFlashing, setDepositAmount } =
+    useCardContext();
   const [service, setService] = useState<null | string>(null);
   console.log(service);
   console.log(currentCard);
+  useEffect(() => {
+    setDepositAmount(0);
+  }, []);
   return (
     <Box
       sx={{
@@ -21,6 +23,8 @@ const ServicesMenu = () => {
     >
       {service === "deposit" ? (
         <DepositMoneyAtm service={service} setService={setService} />
+      ) : service === "withdraw" ? (
+        <WithdrawMoneyAtm service={service} setService={setService} />
       ) : (
         <>
           <Typography variant="h4">What would you like to do?:</Typography>
@@ -36,7 +40,10 @@ const ServicesMenu = () => {
             />
             <ChooseLgGrid
               label="Deposit"
-              onClick={() => setService("deposit")}
+              onClick={() => {
+                setService("deposit");
+                setIsEnvelopeFlashing(true);
+              }}
             />
             <ChooseLgGrid
               label="Transfer"

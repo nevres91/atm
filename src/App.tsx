@@ -16,6 +16,10 @@ function App() {
   const [isCardValid, setIsCardValid] = useState(false);
   const [currentCard, setCurrentCard] = useState<string>("");
   const [isConfiscated, setIsConfiscated] = useState(false);
+  const [isEnvelopeFlashing, setIsEnvelopeFlashing] = useState(false);
+  const [isReceiptFlashing, setIsReceiptFlashing] = useState(false);
+  const [isReceiptClicked, setIsReceiptClicked] = useState(false);
+  const [depositAmount, setDepositAmount] = useState(0);
   const [uid, setUid] = useState("");
   const [cardBalance, setCardBalance] = useState(0);
   useEffect(() => {
@@ -33,6 +37,14 @@ function App() {
           setIsConfiscated,
           cardBalance,
           setCardBalance,
+          isEnvelopeFlashing,
+          setIsEnvelopeFlashing,
+          isReceiptFlashing,
+          setIsReceiptFlashing,
+          isReceiptClicked,
+          setIsReceiptClicked,
+          depositAmount,
+          setDepositAmount,
         }}
       >
         <Routes>

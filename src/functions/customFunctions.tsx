@@ -141,3 +141,23 @@ export const fetchAccounts = async () => {
   });
   return accounts;
 };
+
+//! Get users Name
+export const fetchUserName = async (cardNumber: string) => {
+  const usersCollection = collection(db, "users");
+  const q = query(usersCollection, where("cardNumber", "==", cardNumber));
+  const querySnapshot = await getDocs(q);
+
+  console.log(`Searching for card number: ${cardNumber}`);
+  if (querySnapshot.empty) {
+    console.log("No matching documents.");
+    return null;
+  }
+  let userName = "";
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    userName = `${data.firstName} ${data.lastName}`;
+  });
+
+  return userName;
+};
