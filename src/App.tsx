@@ -18,7 +18,9 @@ function App() {
   const [isConfiscated, setIsConfiscated] = useState(false);
   const [isEnvelopeFlashing, setIsEnvelopeFlashing] = useState(false);
   const [isReceiptFlashing, setIsReceiptFlashing] = useState(false);
+  const [isMoneyFlashing, setIsMoneyFlashing] = useState(false);
   const [isReceiptClicked, setIsReceiptClicked] = useState(false);
+  const [receiptType, setReceiptType] = useState("");
   const [depositAmount, setDepositAmount] = useState(0);
   const [uid, setUid] = useState("");
   const [cardBalance, setCardBalance] = useState(0);
@@ -41,10 +43,14 @@ function App() {
           setIsEnvelopeFlashing,
           isReceiptFlashing,
           setIsReceiptFlashing,
+          isMoneyFlashing,
+          setIsMoneyFlashing,
           isReceiptClicked,
           setIsReceiptClicked,
           depositAmount,
           setDepositAmount,
+          receiptType,
+          setReceiptType,
         }}
       >
         <Routes>

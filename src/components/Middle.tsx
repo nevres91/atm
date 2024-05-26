@@ -11,8 +11,16 @@ import { useEffect } from "react";
 import { getConfiscateStatus } from "../functions/customFunctions";
 
 const Middle = () => {
-  const { isCardValid, currentCard, isConfiscated, setIsConfiscated } =
-    useCardContext();
+  const {
+    isCardValid,
+    currentCard,
+    isConfiscated,
+    setIsConfiscated,
+    isMoneyFlashing,
+    setIsMoneyFlashing,
+    setIsReceiptFlashing,
+    setReceiptType,
+  } = useCardContext();
   const { isPinValid } = usePinContext();
   useEffect(() => {
     if (currentCard.length > 1) {
@@ -80,10 +88,25 @@ const Middle = () => {
         }}
       >
         <Button
+          disabled={isMoneyFlashing ? false : true}
+          onClick={() => {
+            setIsMoneyFlashing(false);
+            setIsReceiptFlashing(true);
+            setReceiptType("withdraw");
+          }}
           sx={{
             height: "95%",
             width: "83%",
             background: `url(${money}) no-repeat center center/cover`,
+            animation: isMoneyFlashing ? "flash-envelope 2s infinite" : "none",
+            "@keyframes flash-envelope": {
+              "0%, 49.9%, 100%": {
+                boxShadow: "0 0 17px 6px rgba(21,255,0,0.75)", // ! changes color of card also
+              },
+              "50%, 99.9%": {
+                boxShadow: "none",
+              },
+            },
           }}
         />
       </Box>

@@ -35,6 +35,8 @@ const DepositMoneyAtm = ({
     isReceiptFlashing,
     setIsReceiptClicked,
     isReceiptClicked,
+    setReceiptType,
+    receiptType,
   } = useCardContext();
   const [moneyToDeposit, setMoneyToDeposit] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -80,6 +82,7 @@ const DepositMoneyAtm = ({
         setIsEnvelopeFlashing(false);
         setLoading(false);
         setIsReceiptFlashing(true);
+        setReceiptType("deposit");
         setDate(new Date().toLocaleString());
       }, 2000);
     } catch (error) {
@@ -89,7 +92,7 @@ const DepositMoneyAtm = ({
 
   return (
     <>
-      {isReceiptClicked ? (
+      {isReceiptClicked && receiptType === "deposit" ? (
         <>
           <Receipt
             finalBalance={cardBalance}
@@ -102,6 +105,16 @@ const DepositMoneyAtm = ({
             Please Take Out Your Card!
           </Typography>
         </>
+      ) : isReceiptFlashing ? (
+        <>
+          <Typography my={4} variant="h4">
+            Your final balance is:
+          </Typography>
+          <Typography variant="h3">{cardBalance} $</Typography>
+          <Typography my={8} variant="h4">
+            Please Take Your Receipt!
+          </Typography>
+        </>
       ) : (
         <Box
           sx={{
@@ -110,7 +123,17 @@ const DepositMoneyAtm = ({
             overflow: "hidden",
           }}
         >
-          <Typography variant="h4">DEPOSIT MONEY</Typography>
+          <Typography
+            sx={{
+              display: "flex",
+              background: "rgba(104, 126, 163, 0.9)",
+              padding: "10px",
+              textAlign: "left",
+            }}
+            variant="h4"
+          >
+            Deposit
+          </Typography>
           <Paper
             elevation={20}
             sx={{
