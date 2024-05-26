@@ -7,10 +7,14 @@ interface CardContextProps {
   setIsEnvelopeFlashing: React.Dispatch<React.SetStateAction<boolean>>;
   isReceiptFlashing: boolean;
   setIsReceiptFlashing: React.Dispatch<React.SetStateAction<boolean>>;
+  isMoneyFlashing: boolean;
+  setIsMoneyFlashing: React.Dispatch<React.SetStateAction<boolean>>;
   isReceiptClicked: boolean;
   setIsReceiptClicked: React.Dispatch<React.SetStateAction<boolean>>;
   currentCard: string;
   setCurrentCard: React.Dispatch<React.SetStateAction<string>>;
+  receiptType: string;
+  setReceiptType: React.Dispatch<React.SetStateAction<string>>;
   isConfiscated: boolean;
   setIsConfiscated: React.Dispatch<React.SetStateAction<boolean>>;
   cardBalance: number;

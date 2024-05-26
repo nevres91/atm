@@ -7,12 +7,14 @@ const Receipt = ({
   userName,
   depositAmount,
   finalBalance,
+  withdrawAmount,
 }: {
   cardNumber: string;
   date: string | null;
   userName: string;
-  depositAmount: number;
+  depositAmount?: number;
   finalBalance: number;
+  withdrawAmount?: number;
 }) => {
   return (
     <Paper
@@ -21,7 +23,7 @@ const Receipt = ({
         width: "400px",
         margin: "auto",
         padding: "40px 20px",
-        height: "80%",
+        height: "85%",
       }}
     >
       <Typography
@@ -71,17 +73,44 @@ const Receipt = ({
           <Typography>CUSTOMER NAME</Typography>
           <Typography>{userName}</Typography>
         </Box>
-        <Box
-          my={2}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            color: "gray",
-          }}
-        >
-          <Typography>DEPOSIT AMOUNT</Typography>
-          <Typography>{depositAmount} $</Typography>
-        </Box>
+        {depositAmount !== undefined ? (
+          <Box
+            my={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              color: "gray",
+            }}
+          >
+            <Typography>DEPOSIT AMOUNT</Typography>
+            <Typography>${depositAmount}</Typography>
+          </Box>
+        ) : (
+          <>
+            <Box
+              my={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "gray",
+              }}
+            >
+              <Typography>WITHDRAW AMOUNT</Typography>
+              <Typography>${withdrawAmount}</Typography>
+            </Box>
+            <Box
+              my={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "gray",
+              }}
+            >
+              <Typography>TERMINAL FEE</Typography>
+              <Typography>$1.25</Typography>
+            </Box>
+          </>
+        )}
         <Box
           my={2}
           sx={{
@@ -91,7 +120,7 @@ const Receipt = ({
           }}
         >
           <Typography>FINAL BALANCE</Typography>
-          <Typography>{finalBalance} $</Typography>
+          <Typography>${finalBalance}</Typography>
         </Box>
         <Typography
           my={2}
