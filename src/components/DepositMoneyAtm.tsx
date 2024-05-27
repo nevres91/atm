@@ -16,10 +16,8 @@ import {
 import Receipt from "./Receipt";
 
 const DepositMoneyAtm = ({
-  service,
   setService,
 }: {
-  service: null | string;
   setService: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   console.log("deposit money rendered");
@@ -33,7 +31,6 @@ const DepositMoneyAtm = ({
     setDepositAmount,
     setIsReceiptFlashing,
     isReceiptFlashing,
-    setIsReceiptClicked,
     isReceiptClicked,
     setReceiptType,
     receiptType,
@@ -41,7 +38,6 @@ const DepositMoneyAtm = ({
   const [moneyToDeposit, setMoneyToDeposit] = useState(0);
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
-  const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [date, setDate] = useState<null | string>(null);
   const [receiptDepositAmount, setReceiptDepositAmount] = useState(0);
   useRedirect(currentCard);

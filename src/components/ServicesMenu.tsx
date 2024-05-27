@@ -4,10 +4,15 @@ import { ChooseLgGrid } from "../styles/styles";
 import { useCardContext } from "../context/CardContext";
 import DepositMoneyAtm from "./DepositMoneyAtm";
 import WithdrawMoneyAtm from "./WithdrawMoneyAtm";
+import BalanceAtm from "./BalanceAtm";
 
 const ServicesMenu = () => {
-  const { currentCard, setIsEnvelopeFlashing, setDepositAmount } =
-    useCardContext();
+  const {
+    currentCard,
+    setIsEnvelopeFlashing,
+    setDepositAmount,
+    setReceiptType,
+  } = useCardContext();
   const [service, setService] = useState<null | string>(null);
   console.log(service);
   console.log(currentCard);
@@ -22,9 +27,11 @@ const ServicesMenu = () => {
       }}
     >
       {service === "deposit" ? (
-        <DepositMoneyAtm service={service} setService={setService} />
+        <DepositMoneyAtm setService={setService} />
       ) : service === "withdraw" ? (
-        <WithdrawMoneyAtm service={service} setService={setService} />
+        <WithdrawMoneyAtm setService={setService} />
+      ) : service === "balance" ? (
+        <BalanceAtm />
       ) : (
         <>
           <Typography variant="h4">What would you like to do?:</Typography>
@@ -50,7 +57,10 @@ const ServicesMenu = () => {
               onClick={() => setService("transfer")}
             />
             <ChooseLgGrid
-              onClick={() => setService("balance")}
+              onClick={() => {
+                setService("balance");
+                setReceiptType("balance");
+              }}
               label="Balance"
             />
           </Grid>

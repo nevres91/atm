@@ -1,5 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
+import { useCardContext } from "../context/CardContext";
 
 const Receipt = ({
   cardNumber,
@@ -16,6 +17,7 @@ const Receipt = ({
   finalBalance: number;
   withdrawAmount?: number;
 }) => {
+  const { receiptType } = useCardContext();
   return (
     <Paper
       elevation={20}
@@ -85,6 +87,8 @@ const Receipt = ({
             <Typography>DEPOSIT AMOUNT</Typography>
             <Typography>${depositAmount}</Typography>
           </Box>
+        ) : receiptType === "balance" ? (
+          ""
         ) : (
           <>
             <Box
@@ -119,7 +123,9 @@ const Receipt = ({
             color: "gray",
           }}
         >
-          <Typography>FINAL BALANCE</Typography>
+          <Typography>
+            {receiptType === "balance" ? "BALANCE" : "FINAL BALANCE"}
+          </Typography>
           <Typography>${finalBalance}</Typography>
         </Box>
         <Typography

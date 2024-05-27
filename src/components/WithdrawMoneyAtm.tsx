@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
-import { ChooseLgGrid, FormField, alignItems } from "../styles/styles";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { Formik, Form } from "formik";
+import { ChooseLgGrid, alignItems } from "../styles/styles";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import { useCardContext } from "../context/CardContext";
 import useRedirect from "../hooks/useRedirect";
 import {
@@ -21,17 +12,14 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import Receipt from "./Receipt";
 
 const WithdrawMoneyAtm = ({
-  service,
   setService,
 }: {
-  service: null | string;
   setService: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
   const {
     currentCard,
     cardBalance,
     setCardBalance,
-    setIsReceiptFlashing,
     isReceiptFlashing,
     receiptType,
     setIsMoneyFlashing,
@@ -65,9 +53,6 @@ const WithdrawMoneyAtm = ({
       }
     });
   }, [currentCard, setCardBalance, cardBalance]);
-  const initialValues = {
-    amount: "",
-  };
   const onSubmit = async () => {
     setLoading(true);
     const balanceAfter = cardBalance - depositAmount - 1.25; //! Users balance after deposit
@@ -160,15 +145,15 @@ const WithdrawMoneyAtm = ({
             <Grid sx={{ width: "100%", height: "50%" }} container my={5}>
               <ChooseLgGrid
                 onClick={() => {
-                  setDepositAmount(40);
-                }}
-                label="$40"
-              />
-              <ChooseLgGrid
-                onClick={() => {
                   setDepositAmount(20);
                 }}
                 label="$20"
+              />
+              <ChooseLgGrid
+                onClick={() => {
+                  setDepositAmount(40);
+                }}
+                label="$40"
               />
               <ChooseLgGrid
                 onClick={() => {
@@ -176,6 +161,7 @@ const WithdrawMoneyAtm = ({
                 }}
                 label="$60"
               />
+
               <ChooseLgGrid
                 onClick={() => {
                   setDepositAmount(80);
