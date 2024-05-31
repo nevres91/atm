@@ -31,7 +31,7 @@ const AccountsList = () => {
 
   return (
     <Grid
-      my={5}
+      my={1}
       sx={{
         position: "relative",
         ...alignItems,
@@ -42,7 +42,7 @@ const AccountsList = () => {
     >
       <Grid item xs={12} md={6} sx={{ height: "100%", overflow: "scroll" }}>
         <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-          Existing Accounts
+          Existing Accounts (Testing Purposes)
         </Typography>
         <Paper
           elevation={12}

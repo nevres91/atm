@@ -5,6 +5,7 @@ import { useCardContext } from "../context/CardContext";
 import DepositMoneyAtm from "./DepositMoneyAtm";
 import WithdrawMoneyAtm from "./WithdrawMoneyAtm";
 import BalanceAtm from "./BalanceAtm";
+import TransferMoneyAtm from "./TransferMoneyAtm";
 
 const ServicesMenu = () => {
   const {
@@ -28,6 +29,8 @@ const ServicesMenu = () => {
     >
       {service === "deposit" ? (
         <DepositMoneyAtm setService={setService} />
+      ) : service === "transfer" ? (
+        <TransferMoneyAtm setService={setService} />
       ) : service === "withdraw" ? (
         <WithdrawMoneyAtm setService={setService} />
       ) : service === "balance" ? (
