@@ -9,6 +9,8 @@ const Receipt = ({
   depositAmount,
   finalBalance,
   withdrawAmount,
+  transferAmount,
+  recipientName,
 }: {
   cardNumber: string;
   date: string | null;
@@ -16,6 +18,8 @@ const Receipt = ({
   depositAmount?: number;
   finalBalance: number;
   withdrawAmount?: number;
+  transferAmount?: number;
+  recipientName?: string;
 }) => {
   const { receiptType } = useCardContext();
   return (
@@ -25,7 +29,7 @@ const Receipt = ({
         width: "400px",
         margin: "auto",
         padding: "40px 20px",
-        height: "85%",
+        height: receiptType === "transfer" ? "95%" : "85%",
       }}
     >
       <Typography
@@ -89,6 +93,42 @@ const Receipt = ({
           </Box>
         ) : receiptType === "balance" ? (
           ""
+        ) : receiptType === "transfer" ? (
+          <>
+            <Box
+              my={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "gray",
+              }}
+            >
+              <Typography>RECEPIENT NAME</Typography>
+              <Typography>{recipientName}</Typography>
+            </Box>
+            <Box
+              my={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "gray",
+              }}
+            >
+              <Typography>TRANSFER AMOUNT</Typography>
+              <Typography>$ {transferAmount}</Typography>
+            </Box>
+            <Box
+              my={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "gray",
+              }}
+            >
+              <Typography>TERMINAL FEE</Typography>
+              <Typography>$ 1.25</Typography>
+            </Box>
+          </>
         ) : (
           <>
             <Box

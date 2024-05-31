@@ -24,11 +24,14 @@ const RightSide = () => {
     setIsReceiptFlashing,
     isReceiptClicked,
     setIsReceiptClicked,
+    setReceiptType,
   } = useCardContext();
   console.log("right side loading " + loading);
   const insert = () => {
     insertCard();
     setIsCardValid(false);
+    setIsReceiptClicked(false);
+    console.log("receipt clicked:" + isReceiptClicked);
   };
   useEffect(() => {
     setIsEnvelopeFlashing(false);
@@ -88,7 +91,8 @@ const RightSide = () => {
               : cardIn && isCardValid
               ? "0 0 17px 6px rgba(21,255,0,0.75)"
               : "none",
-          animation: !cardIn ? "flash-card 2s infinite" : "none",
+          animation:
+            !cardIn || isReceiptClicked ? "flash-card 2s infinite" : "none",
           "@keyframes flash-card": {
             "0%, 49.9%, 100%": {
               boxShadow: "0 0 17px 6px rgba(21,255,0,0.75)",
