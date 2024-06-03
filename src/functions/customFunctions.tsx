@@ -12,8 +12,6 @@ import {
 import app from "../firebaseConfig";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { error } from "console";
-import { useCardContext } from "../context/CardContext";
 
 const db = getFirestore(app);
 
@@ -70,6 +68,27 @@ export const validatePin = async (pin: string) => {
       return true;
     } else {
       return false;
+    }
+  } catch (error) {
+    errorToast("Wrong pin entered");
+    console.error("Error fetching user:", error);
+  }
+};
+
+//! CHANGE PIN
+export const setPin = async (currentPin: string, newPin: string) => {
+  const cardNumbersCollection = collection(db, "cardNumbers");
+  const q = query(cardNumbersCollection, where("pin", "==", currentPin));
+  try {
+    const querysnapshot = await getDocs(q);
+    if (querysnapshot.size > 0) {
+      const docRef = querysnapshot.docs[0].ref;
+      await updateDoc(docRef, {
+        pin: newPin,
+      });
+    } else {
+      console.log("Pin not changed!!");
+      console.log("Something Went wrong with setPin function.");
     }
   } catch (error) {
     errorToast("Wrong pin entered");
@@ -147,8 +166,6 @@ export const fetchUserName = async (cardNumber: string) => {
   const usersCollection = collection(db, "users");
   const q = query(usersCollection, where("cardNumber", "==", cardNumber));
   const querySnapshot = await getDocs(q);
-
-  console.log(`Searching for card number: ${cardNumber}`);
   if (querySnapshot.empty) {
     console.log("No matching documents.");
     return null;

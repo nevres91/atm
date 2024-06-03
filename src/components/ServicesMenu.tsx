@@ -8,15 +8,9 @@ import BalanceAtm from "./BalanceAtm";
 import TransferMoneyAtm from "./TransferMoneyAtm";
 
 const ServicesMenu = () => {
-  const {
-    currentCard,
-    setIsEnvelopeFlashing,
-    setDepositAmount,
-    setReceiptType,
-  } = useCardContext();
+  const { setIsEnvelopeFlashing, setDepositAmount, setReceiptType } =
+    useCardContext();
   const [service, setService] = useState<null | string>(null);
-  console.log(service);
-  console.log(currentCard);
   useEffect(() => {
     setDepositAmount(0);
   }, []);

@@ -1,5 +1,4 @@
 import {
-  Box,
   Grid,
   List,
   ListItem,
@@ -7,28 +6,11 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React from "react";
-import styled from "styled-components";
 import { alignItems } from "../styles/styles";
-import { fetchAccounts } from "../functions/customFunctions";
 import useFetchAccounts from "../hooks/useFetchAccounts";
 
 const AccountsList = () => {
-  function generate(element: any) {
-    return [0, 1, 2, 3, 4, 5, 6].map((value) =>
-      React.cloneElement(element, {
-        key: value,
-      })
-    );
-  }
-
-  // const fetchUsers = async () => {
-  //   const users = await fetchAccounts();
-  //   console.log(users);
-  // };
-  // fetchUsers();
   const users = useFetchAccounts();
-
   return (
     <Grid
       my={1}

@@ -9,7 +9,10 @@ const useInputChange = () => {
       setInputValue(value);
     }
   };
-  return { inputValue, handleInputChange };
+  const resetInputValue = () => {
+    setInputValue("");
+  };
+  return { inputValue, handleInputChange, resetInputValue };
 };
 
 export default useInputChange;

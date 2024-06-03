@@ -14,24 +14,25 @@ const Pin = () => {
   const { currentCard, isConfiscated, setIsConfiscated } = useCardContext();
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const { setIsPinValid } = usePinContext();
-  const { inputValue, handleInputChange } = useInputChange();
+  const { inputValue, handleInputChange, resetInputValue } = useInputChange();
 
   const onSubmit = async () => {
     const isPinValid = await validatePin(inputValue);
-    console.log("before", wrongAttempts, isPinValid);
     if (isPinValid) {
       setIsPinValid(true);
       successToast("Logged in.");
       setWrongAttempts(0);
+      resetInputValue();
     } else {
       setWrongAttempts(wrongAttempts + 1);
-      console.log("after", wrongAttempts, isPinValid);
       if (wrongAttempts >= 2) {
         setConfiscateStatus(currentCard, true);
         setIsConfiscated(true);
         errorToast("Your Card is Confiscated!!!");
+        resetInputValue();
       } else {
         errorToast("Wrong PIN number!");
+        resetInputValue();
       }
     }
   };

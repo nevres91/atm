@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import EnvelopeAmount from "./EnvelopeAmount";
 
 const RightSide = () => {
-  console.log("right side rendered");
   const { cardIn, insertCard } = useInsertCard();
   const [envelopeClicked, setEnvelopeClicked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -24,14 +23,11 @@ const RightSide = () => {
     setIsReceiptFlashing,
     isReceiptClicked,
     setIsReceiptClicked,
-    setReceiptType,
   } = useCardContext();
-  console.log("right side loading " + loading);
   const insert = () => {
     insertCard();
     setIsCardValid(false);
     setIsReceiptClicked(false);
-    console.log("receipt clicked:" + isReceiptClicked);
   };
   useEffect(() => {
     setIsEnvelopeFlashing(false);
