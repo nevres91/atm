@@ -24,9 +24,7 @@ function App() {
   const [depositAmount, setDepositAmount] = useState(0);
   const [uid, setUid] = useState("");
   const [cardBalance, setCardBalance] = useState(0);
-  useEffect(() => {
-    console.log("APP:", uid);
-  }, [uid]);
+  useEffect(() => {}, [uid]);
   return (
     <UserContext.Provider value={{ uid, setUid }}>
       <CardContext.Provider

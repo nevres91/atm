@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useCardContext } from "../context/CardContext";
-import useRedirect from "../hooks/useRedirect";
 import {
   fetchUserName,
   getBalance,
@@ -17,11 +16,8 @@ import {
   successToast,
 } from "../functions/customFunctions";
 import Receipt from "./Receipt";
-import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import { alignItems } from "../styles/styles";
 import AccountsList from "./AccountsList";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { parse } from "path";
+import { Field, Form, Formik } from "formik";
 
 const TransferMoneyAtm = ({
   setService,
@@ -79,6 +75,8 @@ const TransferMoneyAtm = ({
     const balanceAfter = cardBalance - parsedAmount - 1.25; //! Users balance after transfer
     const recBalance = await getBalance(recipient); //! Recipient's balance
     if (!recBalance) {
+      setErrorMessage("Recepient doesn't exist!");
+      setLoading(false);
       return;
     }
     const recBalanceAfter = recBalance + parsedAmount; //! Recipient's balance after transfer
@@ -99,10 +97,10 @@ const TransferMoneyAtm = ({
         setLoading(false);
         return;
       }
-      if (recipient === undefined) {
-        setLoading(false);
-        return;
-      }
+      // if (recipient === undefined) {
+      //   setLoading(false);
+      //   return;
+      // }
       const recipientCard = await getFirstNameByCardNumber(recipient);
       const recName = await fetchUserName(recipient);
       if (!recipientCard) {
@@ -128,10 +126,6 @@ const TransferMoneyAtm = ({
     } catch (error) {
       console.log("Error:" + error);
     }
-
-    console.log("recipient balance: " + recBalance);
-    console.log("Recipient" + recipient);
-    console.log("Amount" + amount);
   };
 
   //!Reset Error Messages
@@ -145,9 +139,6 @@ const TransferMoneyAtm = ({
     let inputValue = e.target.value.replace(/[^0-9]/g, "");
     inputValue = inputValue.slice(0, 6);
     e.target.value = inputValue;
-    if (inputValue === 6) {
-      console.log("last number is entered");
-    }
     e.preventDefault();
   };
 
@@ -186,6 +177,7 @@ const TransferMoneyAtm = ({
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Button
               onClick={() => setService(null)}
+              disabled={isReceiptFlashing ? true : false}
               sx={{
                 margin: "5px 0 0 5px",
                 minHeight: "30px",
@@ -345,7 +337,6 @@ const TransferMoneyAtm = ({
               </Box>
             </Form>
           </Formik>
-
           <Box
             sx={{
               overflow: "scroll",

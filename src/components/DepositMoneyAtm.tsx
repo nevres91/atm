@@ -20,7 +20,6 @@ const DepositMoneyAtm = ({
 }: {
   setService: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
-  console.log("deposit money rendered");
   const {
     currentCard,
     cardBalance,
@@ -56,7 +55,6 @@ const DepositMoneyAtm = ({
       }
     };
     refreshBalance();
-    console.log("current card is:" + currentCard);
     fetchUserName(currentCard).then((userName) => {
       if (userName) {
         setUserName(userName);

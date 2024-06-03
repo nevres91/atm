@@ -3,16 +3,10 @@ import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
 import Middle from "./Middle";
 import { useState } from "react";
-import { CardContext } from "../context/CardContext";
 import { PinContext } from "../context/PinContext";
-import { UserContext } from "../context/UserContext";
 
 const MainPage = () => {
-  const [isCardValid, setIsCardValid] = useState(false);
   const [isPinValid, setIsPinValid] = useState(false);
-  const [currentCard, setCurrentCard] = useState<string>("");
-  const [isConfiscated, setIsConfiscated] = useState(false);
-  console.log("Main Page Rendered");
   return (
     <PinContext.Provider value={{ isPinValid, setIsPinValid }}>
       <Box

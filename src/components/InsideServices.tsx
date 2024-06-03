@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { InsideMenu, LeaveBankBtn } from "../styles/styles";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
@@ -19,6 +19,7 @@ const InsideServices = () => {
   const navigate = useNavigate();
   const { userName } = useUserData(uid);
   const [showBalance, setShowBalance] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getConfStatus = async () => {
@@ -66,7 +67,15 @@ const InsideServices = () => {
             color={showBalance ? "#0A367B" : ""}
             onClick={() => {
               if (!isConfiscated) {
-                setShowBalance(!showBalance);
+                if (showBalance) {
+                  setShowBalance(false);
+                } else {
+                  setLoading(true);
+                  setTimeout(() => {
+                    setShowBalance(!showBalance);
+                    setLoading(false);
+                  }, 1500);
+                }
               }
             }}
             width={6}
@@ -117,6 +126,8 @@ const InsideServices = () => {
 
       {showBalance ? (
         <AccountBalance />
+      ) : loading ? (
+        <CircularProgress size={80} sx={{ color: "white", marginTop: "5%" }} />
       ) : (
         <BankCard userName={userName} cardNumber={currentCard} />
       )}

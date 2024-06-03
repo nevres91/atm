@@ -27,7 +27,6 @@ const Middle = () => {
       const getStatus = async () => {
         const confStatus = await getConfiscateStatus(currentCard);
         setIsConfiscated(confStatus);
-        console.log("Middle use effect, status:", confStatus);
       };
       getStatus();
     }

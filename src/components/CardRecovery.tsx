@@ -1,11 +1,5 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Paper,
-  Typography,
-} from "@mui/material";
-import { CustomContainer, MainBox, alignItems } from "../styles/styles";
+import { Button, CircularProgress, Paper, Typography } from "@mui/material";
+import { CustomContainer, MainBox } from "../styles/styles";
 import { useCardContext } from "../context/CardContext";
 import BankCard from "./BankCard";
 import { useUserContext } from "../context/UserContext";

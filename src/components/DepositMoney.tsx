@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { CustomContainer, FormField, MainBox } from "../styles/styles";
+import { useEffect, useState } from "react";
+import {
+  CustomContainer,
+  FormField,
+  MainBox,
+  alignItems,
+} from "../styles/styles";
 import {
   Box,
   Button,
@@ -19,21 +24,33 @@ const DepositMoney = () => {
   const { currentCard, cardBalance, setCardBalance } = useCardContext();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
+  const [deposited, setDeposited] = useState(false);
   useRedirect(currentCard);
   const initialValues = {
     balance: cardBalance,
     amount: "",
   };
-  const onSubmit = async (values: any, props: any) => {
+  const onSubmit = async (values: any) => {
+    setLoading(true);
     let { balance, amount } = values; //values comes from Formik
+    amount = Number(amount);
     const balanceAfter = balance + amount; //! Users balance after deposit
     try {
+      if (amount === "" || amount === 0 || amount < 0) {
+        setErrorMessage("Please enter a valid amount.");
+        setLoading(false);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 2000);
+        return;
+      }
       await setAccBalance(currentCard, balanceAfter); //! Set new balance to user's account
-      successToast("Money Deposit Successful.");
-      setCardBalance(balanceAfter); //! Setting user's new balance to update UI
       setTimeout(() => {
-        navigate("/inside");
-      }, 2000);
+        successToast("Money Deposit Successful.");
+        setCardBalance(balanceAfter); //! Setting user's new balance to update UI
+        setLoading(false);
+        setDeposited(true);
+      }, 1500);
     } catch (error) {
       console.log("Error:", error);
     }
@@ -41,90 +58,141 @@ const DepositMoney = () => {
 
   return (
     <MainBox>
-      <CustomContainer>
-        <Typography variant="h4">Deposit Money</Typography>
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          <Form>
-            <Paper
-              elevation={20}
+      {deposited ? (
+        <>
+          <CustomContainer>
+            <Box
               sx={{
-                padding: "10px",
-                width: "40%",
-                minWidth: "365px",
-                marginTop: "5%",
+                height: "80%",
+                width: "60%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                border: errorMessage ? "1px solid rgb(250,58,58)" : "",
-                boxShadow: errorMessage
-                  ? "0px 0px 25px 2px rgba(250,58,58,0.75)"
-                  : "",
+                ...alignItems,
               }}
             >
-              <Box
+              <Typography variant="h4" sx={{ color: "white" }}>
+                Money Deposit Successfull
+              </Typography>
+              <Button
+                onClick={() => {
+                  navigate("/inside");
+                  setDeposited(false);
+                }}
                 sx={{
-                  maxWidth: "350px",
-                  height: "225px",
+                  marginTop: "20px",
+                  minHeight: "57px",
+                  width: "40%",
+                  minWidth: "365px",
+                }}
+                variant="contained"
+              >
+                Back
+              </Button>
+            </Box>
+          </CustomContainer>
+        </>
+      ) : (
+        <CustomContainer>
+          <Typography variant="h4">Deposit Money</Typography>
+          <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <Form>
+              <Paper
+                elevation={20}
+                sx={{
+                  padding: "10px",
+                  width: "40%",
+                  minWidth: "365px",
+                  marginTop: "5%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  border: errorMessage ? "1px solid rgb(250,58,58)" : "",
+                  boxShadow: errorMessage
+                    ? "0px 0px 25px 2px rgba(250,58,58,0.75)"
+                    : "",
                 }}
               >
-                <Typography
-                  sx={{ display: "flex", alignItems: "center" }}
-                  my={2}
-                  align="left"
-                  variant="h5"
+                <Box
+                  sx={{
+                    maxWidth: "350px",
+                    height: "225px",
+                  }}
                 >
-                  Balance:
-                  <FormField
-                    id="1"
-                    name="balance"
-                    type="number"
-                    label=""
-                    value={cardBalance}
-                    size="small"
-                    marginLeft="50px"
-                    disabled={true}
-                  />
-                </Typography>
-                <Typography
-                  sx={{ display: "flex", alignItems: "center" }}
-                  my={2}
-                  align="left"
-                  variant="h5"
-                >
-                  Amount:{"    "}
-                  <FormField
-                    id="1"
-                    name="amount"
-                    type="number"
-                    label=""
-                    size="small"
-                    marginLeft="54px"
-                  />
-                </Typography>
-                <ToastContainer />
-                <Button
-                  sx={{ margin: "10px 0", width: " 100%", height: "54px" }}
-                  variant="contained"
-                  type="submit"
-                >
-                  {loading ? (
-                    <CircularProgress size={24} color="inherit" />
-                  ) : (
-                    "Deposit"
-                  )}
-                </Button>
-              </Box>
-            </Paper>
-          </Form>
-        </Formik>
-        <Button
-          onClick={() => navigate("/inside")}
-          sx={{ marginTop: "20px", minHeight: "57px", width: "40%" }}
-          variant="contained"
-        >
-          Back
-        </Button>
-      </CustomContainer>
+                  <Typography
+                    sx={{ display: "flex", alignItems: "center" }}
+                    my={2}
+                    align="left"
+                    variant="h5"
+                  >
+                    Balance:
+                    <FormField
+                      id="1"
+                      name="balance"
+                      type="number"
+                      label=""
+                      value={cardBalance}
+                      size="small"
+                      marginLeft="50px"
+                      disabled={true}
+                    />
+                  </Typography>
+                  <Typography
+                    sx={{ display: "flex", alignItems: "center" }}
+                    my={2}
+                    align="left"
+                    variant="h5"
+                  >
+                    Amount:{"    "}
+                    <FormField
+                      id="1"
+                      name="amount"
+                      type="number"
+                      label=""
+                      size="small"
+                      marginLeft="54px"
+                    />
+                  </Typography>
+                  <ToastContainer />
+                  <Button
+                    sx={{ margin: "10px 0", width: " 100%", height: "54px" }}
+                    variant="contained"
+                    type="submit"
+                  >
+                    {loading ? (
+                      <CircularProgress size={24} color="inherit" />
+                    ) : (
+                      "Deposit"
+                    )}
+                  </Button>
+                </Box>
+              </Paper>
+            </Form>
+          </Formik>
+          <Button
+            onClick={() => navigate("/inside")}
+            sx={{ marginTop: "20px", minHeight: "57px", width: "40%" }}
+            variant="contained"
+          >
+            Back
+          </Button>
+          {errorMessage ? (
+            <Button
+              sx={{
+                marginTop: "20px",
+                minHeight: "57px",
+                width: "40%",
+                cursor: "initial",
+              }}
+              variant="contained"
+              color="error"
+            >
+              {errorMessage}
+            </Button>
+          ) : (
+            ""
+          )}
+        </CustomContainer>
+      )}
     </MainBox>
   );
 };

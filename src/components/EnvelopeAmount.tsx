@@ -5,12 +5,10 @@ import * as Yup from "yup";
 import { ToastContainer } from "react-toastify";
 import { useCardContext } from "../context/CardContext";
 import InputAdornment from "@mui/material/InputAdornment";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const EnvelopeAmount = ({
-  isClicked,
   setIsClicked,
-  loading,
   setLoading,
 }: {
   isClicked: boolean;
@@ -18,12 +16,8 @@ const EnvelopeAmount = ({
   loading: boolean;
   setLoading: any;
 }) => {
-  const {
-    depositAmount,
-    setDepositAmount,
-    setIsEnvelopeFlashing,
-    isEnvelopeFlashing,
-  } = useCardContext();
+  const { setDepositAmount, setIsEnvelopeFlashing, isEnvelopeFlashing } =
+    useCardContext();
 
   const initialValues = {
     Amount: "",
@@ -50,10 +44,7 @@ const EnvelopeAmount = ({
       setIsClicked(false);
       resetForm();
       setLoading(false);
-      console.log("flashing in timeout" + isEnvelopeFlashing);
     }, 2500);
-    console.log("amount:" + Amount);
-    console.log("flashing" + isEnvelopeFlashing);
   };
 
   // send an error if anything else except 3 numbers is entered.
@@ -86,7 +77,6 @@ const EnvelopeAmount = ({
         validationSchema={validationSchema}
       >
         {({ values }) => {
-          // console.log(props);
           return (
             <Form>
               <Field

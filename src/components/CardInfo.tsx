@@ -1,4 +1,3 @@
-import React from "react";
 import { CustomContainer } from "../styles/styles";
 import { Typography } from "@mui/material";
 
