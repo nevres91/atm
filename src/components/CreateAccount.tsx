@@ -5,6 +5,7 @@ import {
   Button,
   ThemeProvider,
   CircularProgress,
+  TextField,
 } from "@mui/material";
 import {
   CustomContainer,
@@ -14,7 +15,7 @@ import {
   theme,
 } from "../styles/styles";
 import { useNavigate } from "react-router-dom";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -43,6 +44,12 @@ const CreateAccount = () => {
   const [gender, setGender] = useState("Male");
   const [loading, setLoading] = useState(false);
   const { uid, setUid } = useUserContext();
+  const [errorEmailMessage, setErrorEmailMessage] = useState<null | string>(
+    null
+  );
+  const [errorPasswordMessage, setErrorPasswordMessage] = useState<
+    null | string
+  >(null);
 
   const navigate = useNavigate();
   const initialValues = {
@@ -59,6 +66,7 @@ const CreateAccount = () => {
   };
 
   const onSubmit = async (values: any, props: any) => {
+    setLoading(true);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const cardNumber = generateUniqueNumber();
@@ -66,14 +74,6 @@ const CreateAccount = () => {
     const { email, password, FirstName, LastName } = values; //values comes from Formik
     console.log(email);
     try {
-      console.log(
-        "email:",
-        email,
-        "password:",
-        password,
-        "First Name:",
-        FirstName
-      );
       // *Registering a user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -146,7 +146,6 @@ const CreateAccount = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          setLoading(true);
           setUid(user.uid);
           console.log(user.uid);
           successToast("Loged in Successfully.");
@@ -156,18 +155,39 @@ const CreateAccount = () => {
           }, 2000);
         })
         .catch((error: any) => {
-          const { errorCode, errorMessage } = error;
-          console.error(errorCode, errorMessage);
+          const { code, message } = error;
+          console.error(code, message);
           console.log(error);
           errorToast("Something went wrong");
           setUid("");
         });
     } catch (error: any) {
-      const { errorCode, errorMessage } = error;
+      const { code, message } = error;
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        setErrorEmailMessage("Email Already In Use!");
+        console.log(errorEmailMessage);
+      }
       console.log(error);
-      if (errorCode || errorMessage) {
-        console.error(errorCode, errorMessage);
-        alert(errorMessage);
+      if (error.message === "Firebase: Error (auth/invalid-email).") {
+        console.error(code, message);
+        setErrorEmailMessage("Invalid E-mail!");
+        console.log(errorEmailMessage);
+      }
+      if (error.message === "Firebase: Error (auth/missing-email).") {
+        console.error(code, message);
+        setErrorEmailMessage("Please insert E-mail.");
+        console.log(errorEmailMessage);
+      }
+      if (
+        error.message ===
+        "Firebase: Password should be at least 6 characters (auth/weak-password)."
+      ) {
+        console.error(code, message);
+        setErrorPasswordMessage("Password should be at least 6 characters.");
+        console.log(errorEmailMessage);
+      }
+      if (error) {
+        console.log(error);
       }
     }
   };
@@ -200,25 +220,66 @@ const CreateAccount = () => {
                     value2="Female"
                     onGenderChange={handleGenderChange}
                   />
-
-                  <FormField
-                    id="1"
+                  <Field
+                    as={TextField}
+                    required
                     name="FirstName"
                     type="text"
                     label="First Name"
+                    sx={{ margin: "10px" }}
                   />
-                  <FormField
-                    id="3"
+                  <Field
+                    as={TextField}
+                    required
                     name="LastName"
                     type="text"
                     label="Last Name"
+                    sx={{ margin: "10px" }}
                   />
-                  <FormField id="2" name="email" type="email" label="E-mail" />
-                  <FormField
-                    id="4"
+                  <Field
+                    as={TextField}
+                    onClick={() => setErrorEmailMessage(null)}
+                    required
+                    name="email"
+                    type="email"
+                    label="E-mail"
+                    helperText={errorEmailMessage ? `${errorEmailMessage}` : ""}
+                    sx={{
+                      margin: "10px",
+                      "& input": {
+                        backgroundColor: "lightcoral !important",
+                        WebkitBoxShadow: errorEmailMessage
+                          ? "0 0 0 30px rgba(245, 156, 144, 0.9) inset !important"
+                          : "0 0 0 30px white inset !important",
+                        WebkitTextFillColor: "black !important",
+                      },
+                    }}
+                    FormHelperTextProps={{
+                      sx: {
+                        color: "#EF5350",
+                      },
+                    }}
+                  />
+                  <Field
+                    as={TextField}
+                    onClick={() => setErrorPasswordMessage(null)}
+                    required
                     name="password"
                     type="password"
-                    label="Password"
+                    label="E-Password"
+                    sx={{
+                      margin: "10px",
+                      "& input": {
+                        backgroundColor: "lightcoral !important", // background color for input when selecting autocomplete
+                        WebkitBoxShadow: errorPasswordMessage
+                          ? "0 0 0 30px rgba(245, 156, 144, 0.9) inset !important"
+                          : "0 0 0 30px white inset !important", // override autofill box-shadow
+                        WebkitTextFillColor: "black !important", // override autofill text color
+                      },
+                    }}
+                    helperText={
+                      errorPasswordMessage ? `${errorPasswordMessage}` : ""
+                    }
                   />
                   <Button
                     sx={{ margin: "10px 0", width: " 100%", height: "54px" }}

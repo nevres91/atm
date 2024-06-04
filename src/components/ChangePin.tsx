@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CustomContainer, FormField, MainBox } from "../styles/styles";
+import { CustomContainer, MainBox } from "../styles/styles";
 import {
   Box,
   Button,
@@ -14,7 +14,6 @@ import { Formik, Form, Field } from "formik";
 import { useCardContext } from "../context/CardContext";
 import useRedirect from "../hooks/useRedirect";
 import {
-  setAccBalance,
   setPin,
   successToast,
   validatePin,
@@ -119,7 +118,6 @@ const ChangePin = () => {
                   onInput={handleInput}
                   onClick={() => setErrorMessage(null)}
                   size="small"
-                  marginLeft="30px"
                   letterSpacing="15px"
                   fontWeight="900"
                   fontSize="20px"
@@ -162,7 +160,6 @@ const ChangePin = () => {
                   onInput={handleInput}
                   onClick={() => setNewPinErrorMessage(null)}
                   size="small"
-                  marginLeft="30px"
                   letterSpacing="15px"
                   fontWeight="900"
                   fontSize="20px"
