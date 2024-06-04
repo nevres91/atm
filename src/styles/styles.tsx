@@ -203,6 +203,7 @@ export const FormField = ({
   fontWeight,
   padding,
   textAlign,
+  sx = {},
   ...rest
 }: {
   label: string;
@@ -219,6 +220,7 @@ export const FormField = ({
   fontWeight?: string;
   padding?: string;
   textAlign?: string;
+  sx?: object;
 }) => {
   const [field] = useField(name);
 
@@ -242,6 +244,7 @@ export const FormField = ({
         borderRadius: "5px",
         marginTop: "10px",
         marginLeft: marginLeft,
+        ...sx,
       }}
       inputProps={{
         style: {

@@ -96,6 +96,17 @@ export const setPin = async (currentPin: string, newPin: string) => {
   }
 };
 
+// !Get account PIN
+export const getPin = async (cardNumber: string) => {
+  const cardNumbersDoc = await getDoc(doc(db, "cardNumbers", `${cardNumber}`));
+  if (cardNumbersDoc) {
+    const cardNumberData = cardNumbersDoc.data();
+    const pin: string = cardNumberData?.pin;
+    return pin;
+  } else {
+    console.log("Account not found");
+  }
+};
 // !Get account balance
 export const getBalance = async (cardNumber: string) => {
   const transactionDoc = await getDoc(doc(db, "transactions", `${cardNumber}`));
