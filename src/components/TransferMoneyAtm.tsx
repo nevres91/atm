@@ -18,12 +18,14 @@ import {
 import Receipt from "./Receipt";
 import AccountsList from "./AccountsList";
 import { Field, Form, Formik } from "formik";
+import { useTranslation } from "react-i18next";
 
 const TransferMoneyAtm = ({
   setService,
 }: {
   setService: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
+  const { t } = useTranslation();
   const {
     currentCard,
     cardBalance,
@@ -172,7 +174,7 @@ const TransferMoneyAtm = ({
             }}
             variant="h4"
           >
-            Transfer
+            {t("description.part3")}
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Button
@@ -185,7 +187,7 @@ const TransferMoneyAtm = ({
               }}
               variant="contained"
             >
-              Back
+              {t("description.part9")}
             </Button>
             <Typography
               my={1}
@@ -197,13 +199,13 @@ const TransferMoneyAtm = ({
               }}
               variant="h5"
             >
-              Balance: {cardBalance}
+              {t("description.part4")}: {cardBalance}
             </Typography>
           </Box>
           <Typography my={4} variant="h5">
             {isReceiptFlashing
-              ? "Please Take Your Receipt."
-              : "Please Enter Recepient's Card Number"}
+              ? t("description.part12")
+              : t("description.part20")}
           </Typography>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             <Form>
@@ -212,7 +214,7 @@ const TransferMoneyAtm = ({
                   as={TextField}
                   name="recipient"
                   type="tel"
-                  label="Recipient's Card Number"
+                  label={t("description.part19")}
                   variant="filled"
                   required
                   disabled={isReceiptFlashing ? true : false}
@@ -254,7 +256,7 @@ const TransferMoneyAtm = ({
                   as={TextField}
                   name="amount"
                   type="tel"
-                  label="Amount"
+                  label={t("description.part21")}
                   variant="filled"
                   required
                   disabled={isReceiptFlashing ? true : false}
@@ -331,7 +333,7 @@ const TransferMoneyAtm = ({
                       }}
                     />
                   ) : (
-                    "Confirm"
+                    t("description.part8")
                   )}
                 </Button>
               </Box>

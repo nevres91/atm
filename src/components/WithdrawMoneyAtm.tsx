@@ -10,12 +10,14 @@ import {
 } from "../functions/customFunctions";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import Receipt from "./Receipt";
+import { useTranslation } from "react-i18next";
 
 const WithdrawMoneyAtm = ({
   setService,
 }: {
   setService: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
+  const { t } = useTranslation();
   const {
     currentCard,
     cardBalance,
@@ -90,7 +92,7 @@ const WithdrawMoneyAtm = ({
             date={date}
           />
           <Typography my={2} variant="h4">
-            Please Take Out Your Card!
+            {t("description.part13")}
           </Typography>
         </>
       ) : (
@@ -104,7 +106,7 @@ const WithdrawMoneyAtm = ({
             }}
             variant="h4"
           >
-            Withdrawal
+            {t("description.part5")}
           </Typography>
           <Typography
             my={1}
@@ -116,30 +118,30 @@ const WithdrawMoneyAtm = ({
             }}
             variant="h5"
           >
-            Balance: ${cardBalance}
+            {t("description.part4")}: ${cardBalance}
           </Typography>
           {depositAmount > 0 && !isMoneyFlashing && !isReceiptFlashing ? (
             <Box>
               <Typography my={2} variant="h4">
-                You're about to withdraw
+                {t("description.part6")}
               </Typography>
               <Typography my={2} variant="h3">
                 ${depositAmount}
               </Typography>
               <Typography my={2} variant="h5">
-                Terminal fee is $1.25
+                {t("description.part10")} $1.25
               </Typography>
               <Typography my={2} variant="h4">
-                Please Confirm.
+                {t("description.part7")}
               </Typography>
             </Box>
           ) : isMoneyFlashing && depositAmount > 0 && !isReceiptFlashing ? (
             <Typography my={10} variant="h4">
-              Please Take Your Money!
+              {t("description.part11")}
             </Typography>
           ) : depositAmount > 0 && isReceiptFlashing && !isMoneyFlashing ? (
             <Typography my={10} variant="h4">
-              Please Take Your Receipt!
+              {t("description.part12")}
             </Typography>
           ) : (
             <Grid sx={{ width: "100%", height: "50%" }} container my={5}>
@@ -197,7 +199,11 @@ const WithdrawMoneyAtm = ({
             variant="contained"
             color="success"
           >
-            {loading ? <CircularProgress sx={{ color: "white" }} /> : "Confirm"}
+            {loading ? (
+              <CircularProgress sx={{ color: "white" }} />
+            ) : (
+              t("description.part8")
+            )}
           </Button>
           <Button
             disabled={isMoneyFlashing || isReceiptFlashing ? true : false}
@@ -212,7 +218,7 @@ const WithdrawMoneyAtm = ({
             }}
             variant="contained"
           >
-            Back
+            {t("description.part9")}
           </Button>
           {errorMessage ? (
             <Box
