@@ -14,12 +14,14 @@ import {
   setAccBalance,
 } from "../functions/customFunctions";
 import Receipt from "./Receipt";
+import { useTranslation } from "react-i18next";
 
 const DepositMoneyAtm = ({
   setService,
 }: {
   setService: React.Dispatch<React.SetStateAction<null | string>>;
 }) => {
+  const { t } = useTranslation();
   const {
     currentCard,
     cardBalance,
@@ -96,17 +98,17 @@ const DepositMoneyAtm = ({
             date={date}
           />
           <Typography my={2} variant="h4">
-            Please Take Out Your Card!
+            {t("description.part13")}
           </Typography>
         </>
       ) : isReceiptFlashing ? (
         <>
           <Typography my={4} variant="h4">
-            Your final balance is:
+            {t("description.part14")}
           </Typography>
           <Typography variant="h3">{cardBalance} $</Typography>
           <Typography my={8} variant="h4">
-            Please Take Your Receipt!
+            {t("description.part12")}
           </Typography>
         </>
       ) : (
@@ -126,7 +128,7 @@ const DepositMoneyAtm = ({
             }}
             variant="h4"
           >
-            Deposit
+            {t("description.part2")}
           </Typography>
           <Paper
             elevation={20}
@@ -143,7 +145,7 @@ const DepositMoneyAtm = ({
               sx={{ marginTop: "5%", color: "white" }}
               variant="h5"
             >
-              Your Current Balance is:
+              {t("description.part15")}
             </Typography>
             <Typography
               sx={{ marginBottom: "5%", color: "white" }}
@@ -154,7 +156,7 @@ const DepositMoneyAtm = ({
             {moneyToDeposit > 0 ? (
               <>
                 <Typography my={1} variant="h5" sx={{ color: "white" }}>
-                  Your amount to deposit is:
+                  {t("description.part16")}
                 </Typography>
                 <Typography sx={{ color: "white" }} variant="h4">
                   $ {moneyToDeposit}
@@ -172,7 +174,7 @@ const DepositMoneyAtm = ({
                   {loading ? (
                     <CircularProgress sx={{ color: "white" }} />
                   ) : (
-                    "Deposit"
+                    t("description.part2")
                   )}
                 </Button>
                 <Button
@@ -187,11 +189,11 @@ const DepositMoneyAtm = ({
                     minHeight: "57px",
                   }}
                 >
-                  Add More
+                  {t("description.part17")}
                 </Button>
                 {isEnvelopeFlashing ? (
                   <Typography sx={{ color: "white" }} my={1} variant="h5">
-                    Please Insert Your Money.
+                    {t("description.part18")}
                   </Typography>
                 ) : (
                   ""
@@ -199,7 +201,7 @@ const DepositMoneyAtm = ({
               </>
             ) : (
               <Typography sx={{ color: "white" }} my={10} variant="h4">
-                Please Insert Your Money.
+                {t("description.part18")}
               </Typography>
             )}
           </Paper>
@@ -221,7 +223,7 @@ const DepositMoneyAtm = ({
             }}
             variant="contained"
           >
-            Back
+            {t("description.part9")}
           </Button>
         </Box>
       )}

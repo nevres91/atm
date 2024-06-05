@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ChooseLgGrid } from "../styles/styles";
 import { useCardContext } from "../context/CardContext";
@@ -6,12 +6,17 @@ import DepositMoneyAtm from "./DepositMoneyAtm";
 import WithdrawMoneyAtm from "./WithdrawMoneyAtm";
 import BalanceAtm from "./BalanceAtm";
 import TransferMoneyAtm from "./TransferMoneyAtm";
+import ChoseLg from "./ChooseLg";
+import { useTranslation } from "react-i18next";
 
 const ServicesMenu = () => {
+  const { t } = useTranslation();
   const { setIsEnvelopeFlashing, setDepositAmount, setReceiptType } =
     useCardContext();
   const [service, setService] = useState<null | string>(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+    setService("language");
     setDepositAmount(0);
   }, []);
   return (
@@ -21,7 +26,9 @@ const ServicesMenu = () => {
         width: "100%",
       }}
     >
-      {service === "deposit" ? (
+      {service === "language" ? (
+        <ChoseLg setService={setService} setLoading={setLoading} />
+      ) : service === "deposit" ? (
         <DepositMoneyAtm setService={setService} />
       ) : service === "transfer" ? (
         <TransferMoneyAtm setService={setService} />
@@ -29,6 +36,14 @@ const ServicesMenu = () => {
         <WithdrawMoneyAtm setService={setService} />
       ) : service === "balance" ? (
         <BalanceAtm />
+      ) : loading ? (
+        <CircularProgress
+          size={80}
+          sx={{
+            color: "white",
+            margin: "20% auto",
+          }}
+        />
       ) : (
         <>
           <Typography variant="h4">What would you like to do?:</Typography>
@@ -39,18 +54,18 @@ const ServicesMenu = () => {
             my={5}
           >
             <ChooseLgGrid
-              label="Cash WIthdrawal"
+              label={t("description.part1")}
               onClick={() => setService("withdraw")}
             />
             <ChooseLgGrid
-              label="Deposit"
+              label={t("description.part2")}
               onClick={() => {
                 setService("deposit");
                 setIsEnvelopeFlashing(true);
               }}
             />
             <ChooseLgGrid
-              label="Transfer"
+              label={t("description.part3")}
               onClick={() => setService("transfer")}
             />
             <ChooseLgGrid
@@ -58,7 +73,7 @@ const ServicesMenu = () => {
                 setService("balance");
                 setReceiptType("balance");
               }}
-              label="Balance"
+              label={t("description.part4")}
             />
           </Grid>
         </>

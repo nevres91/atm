@@ -4,8 +4,10 @@ import { useCardContext } from "../context/CardContext";
 import useRedirect from "../hooks/useRedirect";
 import { fetchUserName, getBalance } from "../functions/customFunctions";
 import Receipt from "./Receipt";
+import { useTranslation } from "react-i18next";
 
 const BalanceAtm = () => {
+  const { t } = useTranslation();
   const {
     currentCard,
     cardBalance,
@@ -56,7 +58,7 @@ const BalanceAtm = () => {
             date={date}
           />
           <Typography my={2} variant="h4">
-            Please Take Out Your Card!
+            {t("description.part13")}
           </Typography>
         </>
       ) : (
@@ -70,18 +72,18 @@ const BalanceAtm = () => {
             }}
             variant="h4"
           >
-            Balance
+            {t("description.part4")}
           </Typography>
           {loading ? (
             <>
               <Typography my={10} variant="h4">
-                Proccesing
+                {t("description.part22")}
               </Typography>
               <CircularProgress />
             </>
           ) : (
             <Typography my={10} variant="h4">
-              Your Receipt is ready!
+              {t("description.part23")}
             </Typography>
           )}
         </Box>
