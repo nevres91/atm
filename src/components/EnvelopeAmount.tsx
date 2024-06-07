@@ -25,6 +25,7 @@ const EnvelopeAmount = ({
 
   useEffect(() => {
     setDepositAmount(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEnvelopeFlashing]);
 
   const onSubmit = async (values: any, { resetForm }: any) => {

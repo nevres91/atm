@@ -30,6 +30,7 @@ const Middle = () => {
       };
       getStatus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCard]);
 
   return (

@@ -102,9 +102,6 @@ const TransferMoney = () => {
     let inputValue = e.target.value.replace(/[^0-9]/g, "");
     inputValue = inputValue.slice(0, 6);
     e.target.value = inputValue;
-    if (inputValue === 6) {
-      console.log("last number is entered");
-    }
     e.preventDefault();
   };
 

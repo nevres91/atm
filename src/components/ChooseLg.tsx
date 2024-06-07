@@ -22,7 +22,7 @@ const ChoseLg = ({
   setService: React.Dispatch<React.SetStateAction<null | string>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   return (
     <Box

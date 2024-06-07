@@ -36,6 +36,7 @@ const RightSide = () => {
     if (!isEnvelopeFlashing) {
       setEnvelopeClicked(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardIn]);
   return (
     <Box
