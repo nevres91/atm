@@ -87,8 +87,7 @@ export const setPin = async (currentPin: string, newPin: string) => {
         pin: newPin,
       });
     } else {
-      console.log("Pin not changed!!");
-      console.log("Something Went wrong with setPin function.");
+      console.log("Error");
     }
   } catch (error) {
     errorToast("Wrong pin entered");

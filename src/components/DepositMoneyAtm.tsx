@@ -64,6 +64,7 @@ const DepositMoneyAtm = ({
         console.log("userName doesnt exist");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCard, setCardBalance, cardBalance, depositAmount]);
 
   const onSubmit = async () => {

@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import {
   CustomContainer,
-  FormField,
   GenderRadio,
   LeaveBankBtn,
   theme,
@@ -26,7 +25,7 @@ import app from "../firebaseConfig";
 import {
   getFirestore,
   collection,
-  getDoc,
+  // getDoc,
   setDoc,
   doc,
 } from "firebase/firestore";
@@ -43,7 +42,7 @@ import { ToastContainer } from "react-toastify";
 const CreateAccount = () => {
   const [gender, setGender] = useState("Male");
   const [loading, setLoading] = useState(false);
-  const { uid, setUid } = useUserContext();
+  const { setUid } = useUserContext();
   const [errorEmailMessage, setErrorEmailMessage] = useState<null | string>(
     null
   );
@@ -62,7 +61,6 @@ const CreateAccount = () => {
 
   const handleGenderChange = (gender: string) => {
     setGender(gender);
-    console.log(gender);
   };
 
   const onSubmit = async (values: any, props: any) => {
@@ -72,7 +70,6 @@ const CreateAccount = () => {
     const cardNumber = generateUniqueNumber();
     const pinNumber = generateUniquePinNumber();
     const { email, password, FirstName, LastName } = values; //values comes from Formik
-    console.log(email);
     try {
       // *Registering a user
       const userCredential = await createUserWithEmailAndPassword(
@@ -81,7 +78,6 @@ const CreateAccount = () => {
         password
       );
       const user = userCredential.user;
-      console.log(user.uid);
 
       // *Writting data to "user" database
       const docRefUsers = doc(collection(db, "users"), user.uid);
@@ -93,61 +89,49 @@ const CreateAccount = () => {
         cardNumber,
         gender: gender,
       });
-      console.log("Document user written with id:", docRefUsers.id);
-      console.log("the gender after registration:", gender);
 
       // *Writting data to "CardNumbers" database
-      const docRefCardNumber = await setDoc(
-        doc(db, "cardNumbers", `${cardNumber}`),
-        {
-          fullName: `${FirstName} ${LastName}`,
-          pin: pinNumber,
-          isConfiscated: false,
-        }
-      );
+      await setDoc(doc(db, "cardNumbers", `${cardNumber}`), {
+        fullName: `${FirstName} ${LastName}`,
+        pin: pinNumber,
+        isConfiscated: false,
+      });
 
       // *Writting data to "transactions" database
-      const docRefTransactions = await setDoc(
-        doc(db, "transactions", `${cardNumber}`),
-        {
-          balance: 0,
-          transactions: {
-            withdrawal: {
-              amount: 0,
-              date: new Date(),
-              totalBalance: 0,
-            },
-            deposit: {
-              amount: 0,
-              date: new Date(),
-              totalBalance: 0,
-            },
-            transfer: {
-              to: "",
-              amount: 0,
-              date: new Date(),
-              totalBalance: 0,
-            },
+      await setDoc(doc(db, "transactions", `${cardNumber}`), {
+        balance: 0,
+        transactions: {
+          withdrawal: {
+            amount: 0,
+            date: new Date(),
+            totalBalance: 0,
           },
-        }
-      );
+          deposit: {
+            amount: 0,
+            date: new Date(),
+            totalBalance: 0,
+          },
+          transfer: {
+            to: "",
+            amount: 0,
+            date: new Date(),
+            totalBalance: 0,
+          },
+        },
+      });
       // todo //Get Document data
-      const cardNumberDoc = await getDoc(
-        doc(db, "cardNumbers", `${cardNumber}`)
-      );
-      console.log(cardNumberDoc.data());
-      if (cardNumberDoc.exists()) {
-        const cardNumberData = cardNumberDoc.data();
-        console.log("Data from cardNumbers:", cardNumberData);
-      } else {
-        console.log("cardNumbers data doesnt exist");
-      }
+      // const cardNumberDoc = await getDoc(
+      //   doc(db, "cardNumbers", `${cardNumber}`)
+      // );
+      // if (cardNumberDoc.exists()) {
+      //   const cardNumberData = cardNumberDoc.data();
+      // } else {
+      // }
       // *Sing in the user after account creation, and redirect after 2s.
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
           setUid(user.uid);
-          console.log(user.uid);
           successToast("Loged in Successfully.");
           setTimeout(() => {
             setLoading(false);

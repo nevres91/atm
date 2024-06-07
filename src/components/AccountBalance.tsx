@@ -14,6 +14,7 @@ const AccountBalance = () => {
       setBalance(balance);
     };
     CardBalance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

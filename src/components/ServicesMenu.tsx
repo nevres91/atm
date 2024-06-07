@@ -18,6 +18,7 @@ const ServicesMenu = () => {
   useEffect(() => {
     setService("language");
     setDepositAmount(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box
@@ -46,7 +47,7 @@ const ServicesMenu = () => {
         />
       ) : (
         <>
-          <Typography variant="h4">What would you like to do?:</Typography>
+          <Typography variant="h4">{t("description.part24")}:</Typography>
           <Grid
             sx={{ width: "100%", height: "80%" }}
             container

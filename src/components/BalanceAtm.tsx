@@ -45,6 +45,7 @@ const BalanceAtm = () => {
       setIsReceiptFlashing(true);
       setDate(new Date().toLocaleString());
     }, 2500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCard, setCardBalance, cardBalance]);
 
   return (

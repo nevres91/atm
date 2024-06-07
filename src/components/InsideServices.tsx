@@ -33,11 +33,11 @@ const InsideServices = () => {
       }
     };
     getConfStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCard]);
 
   const signOut = () => {
     auth.signOut().then(() => {
-      console.log("user signed out");
       setUid("");
       navigate("/");
     });

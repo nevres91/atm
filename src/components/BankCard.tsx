@@ -6,7 +6,6 @@ import chip from "../img/chip.png";
 import { MyIcon } from "../styles/styles";
 import { useEffect, useState } from "react";
 import { getPin } from "../functions/customFunctions";
-import CardNumber from "./CardNumber";
 import { Box } from "@mui/material";
 
 const BankCard = ({
@@ -20,9 +19,11 @@ const BankCard = ({
   const [pin, setPin] = useState<null | string>(null);
   useEffect(() => {
     const fetchPin = async () => {
-      const pin = await getPin(cardNumber);
-      if (pin) {
-        setPin(pin);
+      if (cardNumber) {
+        const pin = await getPin(cardNumber);
+        if (pin) {
+          setPin(pin);
+        }
       }
     };
     fetchPin();

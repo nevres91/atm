@@ -1,5 +1,4 @@
 import { Button, Grid } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const buttonStyle = (fSize = "40px", bgColor = "#c8c8c8") => ({
@@ -18,8 +17,6 @@ const buttonStyle = (fSize = "40px", bgColor = "#c8c8c8") => ({
   padding: "0",
 });
 
-const successToast = () => toast.success("This is a success toast!");
-
 const Keypad = () => {
   return (
     <Grid
@@ -28,52 +25,78 @@ const Keypad = () => {
       spacing={1}
     >
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>1</Button>
+        <Button disabled sx={buttonStyle()}>
+          1
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>2</Button>
+        <Button disabled sx={buttonStyle()}>
+          2
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>3</Button>
+        <Button disabled sx={buttonStyle()}>
+          3
+        </Button>
       </Grid>
       <Grid item xs={3.9}>
-        <Button sx={buttonStyle("20px", "#f54b67")}>CANCEL</Button>
+        <Button disabled sx={buttonStyle("20px", "#f54b67")}>
+          CANCEL
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>4</Button>
+        <Button disabled sx={buttonStyle()}>
+          4
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>5</Button>
+        <Button disabled sx={buttonStyle()}>
+          5
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>6</Button>
+        <Button disabled sx={buttonStyle()}>
+          6
+        </Button>
       </Grid>
       <Grid item xs={3.9}>
-        <Button sx={buttonStyle("20px", "#f2ff60")}>CLEAR</Button>
+        <Button disabled sx={buttonStyle("20px", "#f2ff60")}>
+          CLEAR
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>7</Button>
+        <Button disabled sx={buttonStyle()}>
+          7
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>8</Button>
+        <Button disabled sx={buttonStyle()}>
+          8
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>9</Button>
+        <Button disabled sx={buttonStyle()}>
+          9
+        </Button>
       </Grid>
       <Grid item xs={3.9}>
-        <Button sx={buttonStyle("20px", "#4db052")}>ENTER</Button>
+        <Button disabled sx={buttonStyle("20px", "#4db052")}>
+          ENTER
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}></Button>
+        <Button disabled sx={buttonStyle()}></Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}>0</Button>
+        <Button disabled sx={buttonStyle()}>
+          0
+        </Button>
       </Grid>
       <Grid item xs={2.7}>
-        <Button sx={buttonStyle()}></Button>
+        <Button disabled sx={buttonStyle()}></Button>
       </Grid>
       <Grid item xs={3.9}>
-        <Button sx={buttonStyle()}></Button>
+        <Button disabled sx={buttonStyle()}></Button>
       </Grid>
     </Grid>
   );

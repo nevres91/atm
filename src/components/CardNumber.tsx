@@ -58,7 +58,6 @@ const CardNumber = () => {
         validationSchema={validationSchema}
       >
         {(props) => {
-          // console.log(props);
           return (
             <Form>
               <Field

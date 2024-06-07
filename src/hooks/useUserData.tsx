@@ -26,6 +26,7 @@ const useUserData = (uid: any) => {
       }
     };
     getUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid]);
   return { userName, isConfiscated };
 };

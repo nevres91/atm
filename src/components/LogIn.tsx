@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Box, Typography, Paper, Button, ThemeProvider } from "@mui/material";
 import { Formik, Form } from "formik";
 import {
@@ -12,14 +11,10 @@ import { useUserContext } from "../context/UserContext";
 import { errorToast, successToast } from "../functions/customFunctions";
 import InsideServices from "./InsideServices";
 import { useNavigate } from "react-router-dom";
-import { useCardContext } from "../context/CardContext";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
-import app from "../firebaseConfig";
 
 const LogIn = () => {
   const navigate = useNavigate();
   const { uid, setUid } = useUserContext();
-  const { currentCard, setCurrentCard } = useCardContext();
   const auth = getAuth();
   const initialValues = {
     email: "",
@@ -36,7 +31,6 @@ const LogIn = () => {
         // Signed in
         const user = userCredential.user;
         setUid(user.uid);
-        console.log(user.uid);
         successToast("Loged in Successfully.");
       })
       .catch((error: any) => {
@@ -46,9 +40,6 @@ const LogIn = () => {
         console.log("Error UID", errorCode, errorMessage);
         console.log(error);
       });
-    console.log(uid);
-
-    console.log("Login submitted!");
   };
   return (
     <ThemeProvider theme={theme}>

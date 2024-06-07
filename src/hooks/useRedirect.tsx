@@ -9,6 +9,7 @@ const useRedirect = (currentCard: string) => {
     if (!currentCard) {
       navigate("/inside");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCard]);
 };
 
