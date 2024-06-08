@@ -39,7 +39,6 @@ const Middle = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          // justifyContent: "center",
           height: "85vh",
           width: "85vh",
           minWidth: "90vh",
@@ -51,7 +50,29 @@ const Middle = () => {
           color: "#d3d3d3",
         }}
       >
-        <Typography my={5} mx={4} variant="h3">
+        <Typography
+          my={5}
+          mx={4}
+          sx={{
+            border: "2px solid red",
+            margin: { sm: "10px 5px", md: "20px 10px", lg: "30px 20px" },
+            fontSize: {
+              sm: "1.5rem", // Between h5 and h3
+              md: "2rem", // Equivalent to h3
+              lg: "2.5rem",
+            },
+            fontWeight: {
+              xs: "bold", // Custom weight if needed
+              sm: "bold",
+              md: "bold",
+            },
+            lineHeight: {
+              xs: "1.2", // Custom line height if needed
+              sm: "1.3",
+              md: "1.4",
+            },
+          }}
+        >
           INTERNATIONAL BANK
         </Typography>
         <Box

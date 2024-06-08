@@ -23,7 +23,11 @@ const AccountsList = () => {
       spacing={2}
     >
       <Grid item xs={12} md={6} sx={{ height: "100%", overflow: "scroll" }}>
-        <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+        <Typography
+          sx={{ mt: 4, mb: 2, margin: "0" }}
+          variant="h6"
+          component="div"
+        >
           Existing Accounts (Testing Purposes)
         </Typography>
         <Paper
