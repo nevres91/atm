@@ -145,7 +145,13 @@ const TransferMoneyAtm = ({
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        position: "relative",
+        // border: "4px solid purple",
+        height: "100%",
+      }}
+    >
       {isReceiptClicked && receiptType === "transfer" ? (
         <Receipt
           date={date}
@@ -158,11 +164,14 @@ const TransferMoneyAtm = ({
       ) : (
         <Box
           sx={{
+            position: "absolute",
+            bottom: "0",
+            width: "100%",
             display: "flex",
             flexDirection: "column",
-            position: "relative",
             height: "100%",
             overflow: "hidden",
+            // border: "2px solid lightgreen",
           }}
         >
           <Typography
@@ -171,8 +180,21 @@ const TransferMoneyAtm = ({
               background: "rgba(104, 126, 163, 0.9)",
               padding: "10px",
               textAlign: "left",
+              fontSize: {
+                md: "1rem", // Equivalent to h3
+                lg: "1.5rem",
+              },
+              fontWeight: {
+                xs: "bold", // Custom weight if needed
+                sm: "bold",
+                md: "bold",
+              },
+              lineHeight: {
+                xs: "1.2", // Custom line height if needed
+                sm: "1.3",
+                md: "1.4",
+              },
             }}
-            variant="h4"
           >
             {t("description.part3")}
           </Typography>
@@ -202,14 +224,34 @@ const TransferMoneyAtm = ({
               {t("description.part4")}: {cardBalance}
             </Typography>
           </Box>
-          <Typography my={4} variant="h5">
+          <Typography
+            sx={{ margin: { lg: "10px 0", xl: "40px 0" } }}
+            variant="h5"
+          >
             {isReceiptFlashing
               ? t("description.part12")
               : t("description.part20")}
           </Typography>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            <Form>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Form
+              style={{
+                // border: "2px solid pink",
+                height: "30%",
+                maxHeight: "190px",
+              }}
+            >
+              <Box
+                sx={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  // border: "2px solid red",
+                  width: "45%",
+                  height: "100%",
+                  maxWidth: "300px",
+                  margin: "auto",
+                }}
+              >
                 <Field //!RECIPIENT
                   as={TextField}
                   name="recipient"
@@ -223,15 +265,13 @@ const TransferMoneyAtm = ({
                   helperText={errorMessage ? `${errorMessage}` : ""}
                   InputProps={{
                     style: {
-                      letterSpacing: "15px",
-                      fontWeight: "900",
-                      fontSize: "20px",
                       padding: "5px",
-                      width: "300px",
                       background: errorMessage
                         ? "rgba(255, 184, 184, 1)"
                         : "rgba(241, 242, 237, 0.5)",
                       borderRadius: "10px 10px 0 0",
+                      margin: "2px 0px",
+                      minHeight: "0",
                     },
                   }}
                   FormHelperTextProps={{
@@ -248,9 +288,11 @@ const TransferMoneyAtm = ({
                       fontSize: "25px",
                       letterSpacing: "15px",
                       padding: "15px 0 15px 0",
+                      width: "100%",
+                      minHeight: "0",
                     },
                   }}
-                  style={{ margin: "2px auto" }}
+                  sx={{ flex: 1, minHeight: "0" }}
                 ></Field>
                 <Field //!AMOUNT
                   as={TextField}
@@ -289,11 +331,13 @@ const TransferMoneyAtm = ({
                       fontWeight: "900",
                       fontSize: "20px",
                       padding: "5px",
-                      width: "300px",
+                      width: "100%",
                       background: amountErorMessage
                         ? "rgba(255, 184, 184, 1)"
                         : "rgba(241, 242, 237, 0.5)",
                       borderRadius: "0",
+                      margin: "2px 0px",
+                      minHeight: "0",
                     },
                   }}
                   FormHelperTextProps={{
@@ -310,19 +354,21 @@ const TransferMoneyAtm = ({
                       fontSize: "25px",
                       letterSpacing: "15px",
                       padding: "15px 0 15px 0",
+                      minHeight: "0",
                     },
                   }}
-                  style={{ margin: "2px auto" }}
+                  sx={{ flex: 1, minHeight: "0" }}
                 ></Field>
                 <Button //!CONFIRM BUTTON
                   type="submit"
                   disabled={isReceiptFlashing ? true : false}
                   sx={{
-                    width: "300px",
+                    width: "100%",
                     height: "50px",
                     margin: "auto",
                     borderRadius: "0 0 10px 10px",
                     marginTop: "2px",
+                    flex: 0,
                   }}
                   variant="contained"
                 >
@@ -350,7 +396,7 @@ const TransferMoneyAtm = ({
           </Box>
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 
