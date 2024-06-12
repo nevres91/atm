@@ -28,17 +28,18 @@ const Receipt = ({
         width: "400px",
         margin: "auto",
         padding: "40px 20px",
-        height: receiptType === "transfer" ? "95%" : "85%",
+        height: receiptType === "transfer" ? { xl: "95%", lg: "80%" } : "85%",
+        overflow: "scroll",
       }}
     >
       <Typography
         my={5}
         variant="h6"
         sx={{
-          marginTop: "30px",
+          marginTop: { xl: "30px", lg: "10px" },
           borderTop: "3px dotted gray",
           borderBottom: "3px dotted gray",
-          padding: "20px",
+          padding: { xl: "20px", lg: "8px" },
           color: "gray",
         }}
       >
@@ -46,7 +47,7 @@ const Receipt = ({
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Box
-          my={2}
+          my={{ xl: "2", lg: "0" }}
           sx={{
             display: "flex",
             justifyContent: "space-between",

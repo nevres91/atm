@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Autocomplete,
   Box,
   Button,
   CircularProgress,
@@ -225,7 +226,7 @@ const TransferMoneyAtm = ({
             </Typography>
           </Box>
           <Typography
-            sx={{ margin: { lg: "10px 0", xl: "40px 0" } }}
+            sx={{ margin: { sm: "10px 0", xl: "25px 0" } }}
             variant="h5"
           >
             {isReceiptFlashing
@@ -254,12 +255,14 @@ const TransferMoneyAtm = ({
               >
                 <Field //!RECIPIENT
                   as={TextField}
+                  autoComplete="off"
                   name="recipient"
                   type="tel"
                   label={t("description.part19")}
                   variant="filled"
                   required
                   disabled={isReceiptFlashing ? true : false}
+                  autocomplete={false}
                   onInput={handleInput}
                   onClick={resetErrorMessage}
                   helperText={errorMessage ? `${errorMessage}` : ""}
@@ -296,6 +299,7 @@ const TransferMoneyAtm = ({
                 ></Field>
                 <Field //!AMOUNT
                   as={TextField}
+                  autoComplete="off"
                   name="amount"
                   type="tel"
                   label={t("description.part21")}

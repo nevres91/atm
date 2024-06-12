@@ -16,7 +16,7 @@ const MainPage = () => {
           height: "100vh",
           maxHeight: "100vh",
           justifyContent: "center",
-          // overflow: "hidden",
+          overflow: "hidden",
         }}
       >
         <LeftSide />

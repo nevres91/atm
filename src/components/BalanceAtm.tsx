@@ -49,7 +49,7 @@ const BalanceAtm = () => {
   }, [currentCard, setCardBalance, cardBalance]);
 
   return (
-    <>
+    <Box sx={{ height: "100%", border: "2px solid red", position: "relative" }}>
       {isReceiptClicked && receiptType === "balance" ? (
         <>
           <Receipt
@@ -58,7 +58,11 @@ const BalanceAtm = () => {
             cardNumber={currentCard}
             date={date}
           />
-          <Typography my={2} variant="h4">
+          <Typography
+            sx={{ position: "absolute", bottom: "0", width: "100%" }}
+            my={2}
+            variant="h4"
+          >
             {t("description.part13")}
           </Typography>
         </>
@@ -69,7 +73,6 @@ const BalanceAtm = () => {
               background: "rgba(104, 126, 163, 0.9)",
               padding: "8px",
               textAlign: "left",
-              marginTop: "-20px",
             }}
             variant="h4"
           >
@@ -89,7 +92,7 @@ const BalanceAtm = () => {
           )}
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 

@@ -28,7 +28,7 @@ const AccountsList = () => {
           variant="h6"
           component="div"
         >
-          Existing Accounts (Testing Purposes)
+          Existing Accounts
         </Typography>
         <Paper
           elevation={12}
