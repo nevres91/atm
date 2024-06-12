@@ -54,22 +54,15 @@ const Middle = () => {
           my={5}
           mx={4}
           sx={{
-            border: "2px solid red",
-            margin: { sm: "10px 5px", md: "20px 10px", lg: "30px 20px" },
+            margin: { sm: "10px 5px", xl: "30px 20px" },
             fontSize: {
-              sm: "1.5rem", // Between h5 and h3
-              md: "2rem", // Equivalent to h3
-              lg: "2.5rem",
+              sm: "2rem",
+              xl: "2.5rem",
             },
-            fontWeight: {
-              xs: "bold", // Custom weight if needed
-              sm: "bold",
-              md: "bold",
-            },
+            fontWeight: "900",
             lineHeight: {
-              xs: "1.2", // Custom line height if needed
               sm: "1.3",
-              md: "1.4",
+              xl: "1.4",
             },
           }}
         >

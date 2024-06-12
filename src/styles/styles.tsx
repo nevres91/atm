@@ -44,10 +44,10 @@ export const MainBox = ({ children }: { children: any }) => {
       bgcolor="#033860"
       sx={{
         width: "100%",
-        height: "100vh",
         display: "flex",
         flexDirection: "column",
         ...alignItems,
+        // border: "2px solid red",
       }}
     >
       {children}
@@ -100,8 +100,8 @@ export const LeaveBankBtn = ({
         width: "75%",
         marginTop: "10px",
         height: "10%",
-        position: "absolute",
-        bottom: "20px",
+        // position: "absolute",
+        // bottom: "20px",
         fontSize: "2rem",
       }}
       onClick={onClick}
@@ -290,6 +290,7 @@ export const CustomContainer: React.FC<CustomContainerProps> = ({
         height: "100vh",
         width: "100vw",
         color: "white",
+        overflow: "scroll",
       }}
       maxWidth="xl"
     >
