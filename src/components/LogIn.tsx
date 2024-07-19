@@ -12,6 +12,7 @@ import { errorToast, successToast } from "../functions/customFunctions";
 import InsideServices from "./InsideServices";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 const LogIn = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
@@ -38,13 +39,12 @@ const LogIn = () => {
       setUid(user.uid);
       successToast("Logged in Successfully.");
     } catch (error: any) {
-      const { code, message } = error;
-
-      errorToast(`${code} ${message}`);
+      const { code } = error;
       setUid("");
 
       if (code === "auth/invalid-credential") {
         console.log("invalid Credentials");
+        errorToast("invalid Credentials");
         setErrorMessage("Invalid Credentials!");
       } else {
         console.log("An unknown error occurred. CODE: +" + code);
@@ -126,6 +126,7 @@ const LogIn = () => {
           <InsideServices />
         )}
       </CustomContainer>
+      <ToastContainer />
     </ThemeProvider>
   );
 };
