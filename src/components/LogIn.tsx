@@ -11,8 +11,10 @@ import { useUserContext } from "../context/UserContext";
 import { errorToast, successToast } from "../functions/customFunctions";
 import InsideServices from "./InsideServices";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const LogIn = () => {
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const navigate = useNavigate();
   const { uid, setUid } = useUserContext();
   const auth = getAuth();
@@ -26,20 +28,28 @@ const LogIn = () => {
     // const db = getFirestore(app);
 
     // !SignIn
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        setUid(user.uid);
-        successToast("Loged in Successfully.");
-      })
-      .catch((error: any) => {
-        const { errorCode, errorMessage } = error;
-        errorToast(`${errorCode} ${errorMessage}`);
-        setUid("");
-        console.log("Error UID", errorCode, errorMessage);
-        console.log(error);
-      });
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      setUid(user.uid);
+      successToast("Logged in Successfully.");
+    } catch (error: any) {
+      const { code, message } = error;
+
+      errorToast(`${code} ${message}`);
+      setUid("");
+
+      if (code === "auth/invalid-credential") {
+        console.log("invalid Credentials");
+        setErrorMessage("Invalid Credentials!");
+      } else {
+        console.log("An unknown error occurred. CODE: +" + code);
+      }
+    }
   };
   return (
     <ThemeProvider theme={theme}>
@@ -56,6 +66,10 @@ const LogIn = () => {
                   padding: "10px",
                   width: "40%",
                   marginTop: "5%",
+                  border: errorMessage ? "2px solid red" : "",
+                  boxShadow: errorMessage
+                    ? "0px 0px 32px 5px rgba(247,9,9,0.75)"
+                    : "",
                 }}
               >
                 <Typography variant="h5">
@@ -75,19 +89,22 @@ const LogIn = () => {
                       name="email"
                       type="email"
                       label="E-mail"
+                      onInput={() => setErrorMessage(null)}
                     />
                     <FormField
                       id="4"
                       name="password"
                       type="password"
                       label="Password"
+                      onInput={() => setErrorMessage(null)}
                     />
                     <Button
                       sx={{ margin: "10px 0", width: " 100%", height: "54px" }}
                       variant="contained"
                       type="submit"
+                      color={errorMessage ? "error" : "primary"}
                     >
-                      Login
+                      {errorMessage ? errorMessage : "LOGIN"}
                     </Button>
                   </Box>
                 </Form>

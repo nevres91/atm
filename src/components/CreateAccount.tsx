@@ -149,18 +149,15 @@ const CreateAccount = () => {
       const { code, message } = error;
       if (error.message === "Firebase: Error (auth/email-already-in-use).") {
         setErrorEmailMessage("Email Already In Use!");
-        console.log(errorEmailMessage);
       }
       console.log(error);
       if (error.message === "Firebase: Error (auth/invalid-email).") {
         console.error(code, message);
         setErrorEmailMessage("Invalid E-mail!");
-        console.log(errorEmailMessage);
       }
       if (error.message === "Firebase: Error (auth/missing-email).") {
         console.error(code, message);
         setErrorEmailMessage("Please insert E-mail.");
-        console.log(errorEmailMessage);
       }
       if (
         error.message ===
@@ -168,10 +165,9 @@ const CreateAccount = () => {
       ) {
         console.error(code, message);
         setErrorPasswordMessage("Password should be at least 6 characters.");
-        console.log(errorEmailMessage);
       }
       if (error) {
-        console.log(error);
+        setLoading(false);
       }
     }
   };
@@ -250,7 +246,7 @@ const CreateAccount = () => {
                     required
                     name="password"
                     type="password"
-                    label="E-Password"
+                    label="Password"
                     sx={{
                       margin: "10px",
                       "& input": {

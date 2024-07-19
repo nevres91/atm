@@ -100,8 +100,8 @@ export const LeaveBankBtn = ({
         width: "75%",
         marginTop: "10px",
         height: "10%",
-        // position: "absolute",
-        // bottom: "20px",
+        position: "absolute",
+        bottom: "20px",
         fontSize: "2rem",
       }}
       onClick={onClick}

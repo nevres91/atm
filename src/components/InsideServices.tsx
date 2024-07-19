@@ -14,27 +14,37 @@ import { getBalance, getConfiscateStatus } from "../functions/customFunctions";
 const InsideServices = () => {
   const auth = getAuth();
   const { uid, setUid } = useUserContext();
-  const { setCardBalance, currentCard, isConfiscated, setIsConfiscated } =
-    useCardContext();
+  const {
+    setCardBalance,
+    currentCard,
+    isConfiscated,
+    setIsConfiscated,
+    cardBalance,
+  } = useCardContext();
   const navigate = useNavigate();
   const { userName } = useUserData(uid);
   const [showBalance, setShowBalance] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  console.log("card Number: " + currentCard);
+  console.log("Card Balance: " + cardBalance);
 
   useEffect(() => {
     const getConfStatus = async () => {
       if (currentCard) {
         const cardBalance = await getBalance(currentCard); //! Fetching account balance in addition to status
         const status = await getConfiscateStatus(currentCard);
-        if (cardBalance) {
+        console.log("cardBalance: " + cardBalance);
+        if (cardBalance !== null && cardBalance !== undefined) {
           setCardBalance(cardBalance); //! Setting global state for balance
+          console.log("card balance true!");
         }
         setIsConfiscated(status);
       }
     };
     getConfStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCard]);
+  }, [currentCard, cardBalance]);
 
   const signOut = () => {
     auth.signOut().then(() => {
@@ -96,6 +106,7 @@ const InsideServices = () => {
               if (!isConfiscated) {
                 navigate("/inside/deposit");
               }
+              setCardBalance(cardBalance);
             }}
             disabled={isConfiscated}
             width={6}

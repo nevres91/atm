@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CustomContainer,
   FormField,
@@ -17,7 +17,11 @@ import { ToastContainer } from "react-toastify";
 import { Formik, Form } from "formik";
 import { useCardContext } from "../context/CardContext";
 import useRedirect from "../hooks/useRedirect";
-import { setAccBalance, successToast } from "../functions/customFunctions";
+import {
+  getBalance,
+  setAccBalance,
+  successToast,
+} from "../functions/customFunctions";
 
 const DepositMoney = () => {
   const navigate = useNavigate();
@@ -26,6 +30,19 @@ const DepositMoney = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [deposited, setDeposited] = useState(false);
   useRedirect(currentCard);
+  useEffect(() => {
+    const refreshBalance = async () => {
+      if (currentCard) {
+        const cardBalance = await getBalance(currentCard); //! Fetching account balance in addition to status
+        if (cardBalance) {
+          setCardBalance(cardBalance); //! Setting global state for balance
+          console.log("card Balance is: " + cardBalance);
+        }
+      }
+    };
+    refreshBalance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCard, cardBalance]);
   const initialValues = {
     balance: cardBalance,
     amount: "",
