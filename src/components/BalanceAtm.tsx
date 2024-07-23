@@ -49,7 +49,7 @@ const BalanceAtm = () => {
   }, [currentCard, setCardBalance, cardBalance]);
 
   return (
-    <Box sx={{ height: "100%", border: "2px solid red", position: "relative" }}>
+    <Box sx={{ height: "100%", position: "relative" }}>
       {isReceiptClicked && receiptType === "balance" ? (
         <>
           <Receipt
