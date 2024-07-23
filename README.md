@@ -1,12 +1,12 @@
-#ATM Simulation Website
+# ATM Simulation Website
 Welcome to the ATM Simulation Website! This project is a web-based simulation of an Automated Teller Machine (ATM) that allows users to perform basic banking operations. 
 
-##Features:
+## Features:
 Account Management: Create and manage multiple user accounts.
 Deposit and Withdrawal: Perform deposit and withdrawal transactions.
 Balance Inquiry: Check the current balance of your account.
 
-##Technologies Used
+## Technologies Used
 Frontend: React with TypeScript
 UI Components: Material-UI
 State Management: React Context API
