@@ -7,10 +7,13 @@ Deposit and Withdrawal: Perform deposit and withdrawal transactions.
 Balance Inquiry: Check the current balance of your account.
 
 ## Technologies Used
-Frontend: React with TypeScript
-UI Components: Material-UI
-State Management: React Context API
-Styling: CSS / Material-UI
+### Frontend: React with TypeScript
+### UI Components: Material-UI
+### State Management: React Context API
+### Styling: CSS / Material-UI
+
+# Demo Link:
+[https://atmsimulation.netlify.app/](https://atmsimulation.netlify.app/)
 
 
 # Getting Started with Create React App
